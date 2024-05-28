@@ -1,14 +1,21 @@
+import path from 'path'
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import users_routes from './routes/users.routes.js'
 dotenv.config()
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Определяем __filename и __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
 app.use(cors(
     {
-        origin:[ 'http://localhost:5173'/** "localhost", "render" */],
+        origin:[ 'http://localhost:5173', 'https://final-project-htp7.onrender.com'/** "localhost", "render" */],
         credentials:true
     }
 ))
@@ -25,12 +32,12 @@ app.listen(process.env.PORT || 3001, () => {
 
 app.use("/api/users",users_routes);
 
-
+console.log(__dirname);
 // Have Node serve the files for our built React app
-// app.use(express.static(path.resolve(__dirname, "./client/build")));
-app.use(express.static(path.join(__dirname, "/client/build")));
+// app.use(express.static(path.resolve(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
 });

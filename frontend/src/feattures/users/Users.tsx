@@ -2,7 +2,7 @@ import { useState ,} from "react"
 import { nanoid } from "@reduxjs/toolkit"
 import axios from "axios"
 
-import {SERVERURL} from '../../environmence.ts'
+import {SERVERURL} from '../../environments.ts'
 type UserType = {
     u_lastname:string,
     u_firstname:string,

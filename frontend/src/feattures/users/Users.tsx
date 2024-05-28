@@ -2,18 +2,19 @@ import { useState ,} from "react"
 import { nanoid } from "@reduxjs/toolkit"
 import axios from "axios"
 
+import {SERVERURL} from '../../environments.ts'
 type UserType = {
     u_lastname:string,
     u_firstname:string,
     u_email:string,
     u_id:number|string
 }
-const Users = ()=>{
-    const [users,setUsers] = useState([])
+const Users: React.FC = ()=>{
+    const [users,setUsers] = useState<UserType[]>([])
 
     const getAllUsers = async()=>{
         try {
-            const response = await axios('http://localhost:3001/api/users',{
+            const response = await axios(`${SERVERURL}/api/users`,{
                 withCredentials: true,
             })
             // const data = await resp.json()

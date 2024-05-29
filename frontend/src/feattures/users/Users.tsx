@@ -14,7 +14,7 @@ const Users: React.FC = ()=>{
 
     const getAllUsers = async()=>{
         try {
-            const response = await axios(`${SERVERURL}/api/users`,{
+            const response = await axios(`/api/users`,{
                 withCredentials: true,
             })
             // const data = await resp.json()

@@ -1,6 +1,6 @@
 // import { useState } from 'react'
 import './App.css'
-import Users from './feattures/users/Users'
+import Users from './feattures/users/Users.tsx'
 import { Route, Routes } from 'react-router-dom'
 
 

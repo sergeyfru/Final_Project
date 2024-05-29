@@ -2,9 +2,11 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 
 import bcrypt from 'bcrypt'
-import { register, all } from '../models/users.models.js'
+import { register, all, login } from '../models/users.models.js'
 
 dotenv.config();
+
+const { ACCESS_TOKEN_EXPIRY, ACCESS_TOKEN_SECRET } = process.env
 
 
 export const _register = async (req, res) => {
@@ -21,7 +23,7 @@ export const _register = async (req, res) => {
 
     } catch (error) {
         console.log('Users controllers   _register =>', error);
-        res.status(404).json({ msg: 'Register failed'})
+        res.status(404).json({ msg: 'Register failed' })
     }
 }
 
@@ -33,6 +35,61 @@ export const _all = async (req, res) => {
 
     } catch (error) {
         console.log('Users controllers _all =>', error);
-        res.status(404).json({ msg: 'Do not get users'})
+        res.status(404).json({ msg: 'Do not get users' })
+    }
+}
+
+export const _login = async (req, res) => {
+    
+    try {
+        const { email, password } = req.body
+        const { user, hashpassword } = await login(email.toLowerCase())
+
+        if (!user) return res.status(404).json({ msg: 'Email not found' })
+
+        const isMatch = bcrypt.compareSync(password + '', hashpassword.p_password)
+        if (!isMatch) return res.status(404).json({ msg: 'Wrong password' })
+
+        const accessToken = jwt.sign(
+            {
+                u_id: user.u_id,
+                u_firstname: user.u_firstname,
+                u_lastname:user.u_lastname,
+                u_email: user.u_email,
+            },
+            ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: ACCESS_TOKEN_EXPIRY // '1m'
+            }
+        );
+        
+        res.cookie('u_token', accessToken, {
+            httpOnly: true,
+            // maxAge: ACCESS_TOKEN_EXPIRY
+        })
+
+        const refreshToken = jwt.sign(
+            {
+                u_id: user.u_id,
+                u_firstname: user.u_firstname,
+                u_lastname:user.u_lastname,
+                u_email: user.u_email,  
+            },
+            ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: '1d'
+            }
+        )
+        
+        res.cookie('refreshToken',refreshToken,{
+            httpOnly:true,
+            maxAge: ACCESS_TOKEN_EXPIRY*60*24
+        })
+        
+        res.json({ token: accessToken, user })
+
+    } catch (error) {
+        console.log('Users controllers _login =>', error);
+        res.status(404).json({ msg: 'Login failed' })
     }
 }

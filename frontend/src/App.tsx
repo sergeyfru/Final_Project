@@ -1,20 +1,15 @@
-// import { useState } from 'react'
+import React from 'react'
 import './App.css'
-import Users from './feattures/users/Users.tsx'
-import { Route, Routes } from 'react-router-dom'
+import Header from './components/Header.tsx'
+import Game from './components/Game.tsx'
 
 
-
-function App() {
-  // const [count, setCount] = useState(0)
+function App(): JSX.Element {
 
   return (
     <>
-
-      <Routes>
-        <Route path='/home' element={<Users />} />
-
-      </Routes>
+      <Header />
+      <Game />
     </>
   )
 }

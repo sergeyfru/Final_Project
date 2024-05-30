@@ -20,7 +20,7 @@ const Game = () => {
                     return (
                         <div key={item.gameId}>
                             <h2>{item.name}</h2>
-                            <img src={item.image} alt="" />
+                            {/* <img src={item.image} alt="" /> */}
                             <img src={item.thumbnail} alt="" />
                         </div>
                     )

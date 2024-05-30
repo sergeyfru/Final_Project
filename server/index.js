@@ -33,12 +33,12 @@ app.listen(process.env.PORT || 3001, () => {
 
 app.use("/api/users",users_routes);
 
-// console.log(__dirname);
-// // Have Node serve the files for our built React app
-// // app.use(express.static(path.resolve(__dirname, "../frontend/dist")));
-// app.use(express.static(path.join(__dirname, "../frontend/dist")));
+console.log(__dirname);
+// Have Node serve the files for our built React app
+// app.use(express.static(path.resolve(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-// // All other GET requests not handled before will return our React app
-// app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
-// });
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
+});

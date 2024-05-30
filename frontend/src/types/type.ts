@@ -1,3 +1,5 @@
+import store from "../app/store";
+
 export type BoardGame = {
     gameId: number;
     name: string;
@@ -23,3 +25,28 @@ export type BoardGame = {
     wishList: boolean;
     userComment: string;
 };
+export type User = {
+    u_id?: string | number,
+    u_firstname?: string,
+    u_lastname?: string,
+    u_email?: string,
+    p_password?: string
+}
+export type InitialState = {
+    user: User,
+
+    u_token: string | null | undefined,
+    refreshToken: string | null | undefined,
+    status?: EnumRegisterStatus,
+}
+
+export type RegisterStatus = "Success"|"Failed"|"Loading"
+
+export enum EnumRegisterStatus {
+    Success,
+    Failed,
+    Loading
+}
+
+export type StoreStateType = ReturnType<typeof store.getState>
+export type StoreDispatchType = typeof store.dispatch;

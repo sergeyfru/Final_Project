@@ -1,15 +1,26 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { BoardGame } from '../types/type.ts'
+import axios from "axios"
 
 const Game = () => {
     const [games, setGames] = useState<BoardGame[]>([])
-
+    
     const getGame = async () => {
         // const resp = await fetch('https://boardgamegeek.com/browse/boardgame')
-        const resp = await fetch('https://bgg-json.azurewebsites.net/collection/edwalter')
-        const data = await resp.json()
-        console.log(data);
-        setGames(data)
+        const resp = await axios.get('https://bgg-json.azurewebsites.net/collection/edwalter',
+            {
+                headers:{
+                    'x-refresh-token': token?.u_token
+                }
+            }
+        )
+
+
+
+
+        // const data = await resp.json()
+        // console.log(data);
+        // setGames(data)
     }
     return (
         <>

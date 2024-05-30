@@ -10,14 +10,14 @@ const { ACCESS_TOKEN_EXPIRY, ACCESS_TOKEN_SECRET } = process.env
 
 
 export const _register = async (req, res) => {
-    const { u_firstname, u_lastname, email, password } = req.body;
+    const { u_firstname, u_lastname, u_email, p_password } = req.body;
 
     try {
-        const u_email = email.toLowerCase();
+        const emailToLower = u_email.toLowerCase();
         const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = bcrypt.hashSync(password + '', salt)
+        const hashedPassword = bcrypt.hashSync(p_password + '', salt)
 
-        const newUser = await register({ u_firstname, u_lastname, p_password: hashedPassword, u_email })
+        const newUser = await register({ u_firstname, u_lastname, p_password: hashedPassword, u_email:emailToLower })
 
         res.json(newUser)
 
@@ -86,7 +86,7 @@ export const _login = async (req, res) => {
             maxAge: ACCESS_TOKEN_EXPIRY*60*24
         })
         
-        res.json({ token: accessToken, user })
+        res.json({ u_token: accessToken, user,refreshToken })
 
     } catch (error) {
         console.log('Users controllers _login =>', error);

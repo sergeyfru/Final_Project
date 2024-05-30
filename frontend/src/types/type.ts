@@ -50,3 +50,7 @@ export enum EnumRegisterStatus {
 
 export type StoreStateType = ReturnType<typeof store.getState>
 export type StoreDispatchType = typeof store.dispatch;
+
+export type LoginRegistrationProps ={
+    page:string
+}

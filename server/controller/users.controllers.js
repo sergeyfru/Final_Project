@@ -17,7 +17,7 @@ export const _register = async (req, res) => {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(p_password + '', salt)
 
-        const newUser = await register({ u_firstname, u_lastname, p_password: hashedPassword, u_email:emailToLower })
+        const newUser = await register({ u_firstname, u_lastname, p_password: hashedPassword, u_email: emailToLower })
 
         res.json(newUser)
 
@@ -40,53 +40,57 @@ export const _all = async (req, res) => {
 }
 
 export const _login = async (req, res) => {
-    
+
     try {
-        const { email, password } = req.body
-        const { user, hashpassword } = await login(email.toLowerCase())
+        const { u_email, p_password } = req.body
+        const { user, hashpassword } = await login(u_email.toLowerCase())
 
-        if (!user) return res.status(404).json({ msg: 'Email not found' })
+        if (!user) {
+            
+            console.log('in users controlles => email not found');
+            return res.status(404).json({ msg: 'Email not found' })
+        }
 
-        const isMatch = bcrypt.compareSync(password + '', hashpassword.p_password)
+        const isMatch = bcrypt.compareSync(p_password + '', hashpassword.p_password)
         if (!isMatch) return res.status(404).json({ msg: 'Wrong password' })
-
+        console.log('user in u.con', user);
         const accessToken = jwt.sign(
             {
                 u_id: user.u_id,
                 u_firstname: user.u_firstname,
-                u_lastname:user.u_lastname,
+                u_lastname: user.u_lastname,
                 u_email: user.u_email,
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: ACCESS_TOKEN_EXPIRY // '1m'
+                expiresIn: ACCESS_TOKEN_EXPIRY || '1m'
             }
         );
-        
+
         res.cookie('u_token', accessToken, {
             httpOnly: true,
-            // maxAge: ACCESS_TOKEN_EXPIRY
+            maxAge: ACCESS_TOKEN_EXPIRY || '1m'
         })
 
         const refreshToken = jwt.sign(
             {
                 u_id: user.u_id,
                 u_firstname: user.u_firstname,
-                u_lastname:user.u_lastname,
-                u_email: user.u_email,  
+                u_lastname: user.u_lastname,
+                u_email: user.u_email,
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: '1d'
+                expiresIn: ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000
             }
         )
-        
-        res.cookie('refreshToken',refreshToken,{
-            httpOnly:true,
-            maxAge: ACCESS_TOKEN_EXPIRY*60*24
+
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000
         })
-        
-        res.json({ u_token: accessToken, user,refreshToken })
+
+        res.json({ u_token: accessToken, user, refreshToken })
 
     } catch (error) {
         console.log('Users controllers _login =>', error);

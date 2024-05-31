@@ -47,7 +47,12 @@ export const login = async (u_email) => {
             .select('u_id','u_email', 'u_firstname', 'u_lastname')
             .where( {u_email})
             .first()
-        console.log(user);
+        if(!user) {
+            console.log('user models => user not found');
+            await trx.rollback()
+            return  {user:null,hashpassword:null}
+        }
+        
         const hashpassword = await trx('passwords')
             .select('u_id', 'p_password')
             .where( {u_id:user.u_id})
@@ -56,7 +61,7 @@ export const login = async (u_email) => {
 
         await trx.commit()
 
-        return {user,hashpassword} || null
+        return {user,hashpassword} 
     } catch (error) {
         await trx.rollback()
         console.log('Error in User models Login =>', error);

@@ -1,11 +1,12 @@
-import { createSlice,  createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import { createSlice, nanoid, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+
 import { User, InitialState, EnumRegisterStatus } from "../../types/type.ts";
 import axios from "axios";
-const MYURL = 'https://final-project-htp7.onrender.com/api/users'
+import { MYURL } from "../../../settings.ts";
 
 export const register = createAsyncThunk(`user/register`,
-    async ({ u_firstname, u_lastname, u_email, p_password }: User, { rejectWithValue }) => {
+    async ({ u_firstname, u_lastname, u_email, p_password }: User) => {
         try {
 
             const response = await axios.post(`${MYURL}/register`,
@@ -15,20 +16,56 @@ export const register = createAsyncThunk(`user/register`,
 
             console.log(response.data);
 
-            return response.data
+            
+            return response
 
-        } catch (error: any) {
-            console.error('Error registering user:', error);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error('Axios error', error.message);
+                console.log('Axios error', error);
+                return error
 
-            // Check if error.response exists to get the error message
-            if (error.response && error.response.data) {
-                return rejectWithValue(error.response.data);
-            } else {
-                return rejectWithValue(error.message);
-            }
+              } else {
+                console.error('Unexpected error', error);
+              }
         }
-
     })
+
+export const login = createAsyncThunk('user/login',
+    async ({ u_email, p_password }: User) => {
+        try {
+            const response = await axios.post(`${MYURL}/login`,
+            { u_email, p_password },
+            { withCredentials: true }
+            )
+            console.log('response in use slice=>',response);
+            
+            if(response.status === 200){
+                console.log('user slice => status 200');
+                
+            localStorage.setItem('u_token', response.data.u_token);
+            localStorage.setItem('refresh', response.data.refreshToken);
+            }
+            console.log('user_slice res.data=>',response.data);
+            console.log('user_slice res=>',response);
+
+
+            return response
+
+        } catch (error) {
+
+            if (axios.isAxiosError(error)) {
+                console.error('Axios error', error.message);
+                console.log('Axios error', error);
+                return error
+
+                
+              } else {
+                console.error('Unexpected error', error);
+              }
+        }
+    }
+)
 
 export const initialState: InitialState = {
     user: {
@@ -50,15 +87,27 @@ export const userSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(register.pending, (state, ) => {
+            .addCase(register.pending, (state,) => {
                 state.status = EnumRegisterStatus.Loading
             })
-            .addCase(register.rejected, (state, ) => {
+            .addCase(register.rejected, (state,) => {
                 state.status = EnumRegisterStatus.Failed
             })
-            .addCase(register.fulfilled, (state, action) => {
+            .addCase(register.fulfilled, (state, ) => {
                 state.status = EnumRegisterStatus.Success
-                state.user = action.payload
+                // state.user = action.payload
+            })
+
+            .addCase(login.pending, (state,) => {
+                state.status = EnumRegisterStatus.Loading
+            })
+            .addCase(login.rejected, (state,) => {
+                state.status = EnumRegisterStatus.Failed
+            })
+            .addCase(login.fulfilled, (state, ) => {
+                state.status = EnumRegisterStatus.Success
+                // state.user = action.payload
+                // state.u_token = 
             })
 
     }

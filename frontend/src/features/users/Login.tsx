@@ -5,7 +5,6 @@ import { Box, Button, TextField, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { login } from "./user_slice";
 import { useAppDispatch } from "../../app/store";
-import { Axios } from "axios";
 
 const Login = ({ page }: LoginRegistrationProps) => {
     const [message, setMessage] = useState('')
@@ -27,7 +26,7 @@ const Login = ({ page }: LoginRegistrationProps) => {
             setMessage(res.payload?.response.data.msg)
             console.log('Login => status not 200');
         }
-      };
+    };
 
 
 

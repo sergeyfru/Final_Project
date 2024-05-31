@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 dotenv.config()
 
 import users_routes from './routes/users.routes.js'
+import games_routes from './routes/games.routes.js'
 
 // Определяем __filename и __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -32,6 +33,7 @@ app.listen(process.env.PORT || 3001, () => {
 })
 
 app.use("/api/users",users_routes);
+app.use("/api/games",games_routes);
 
 console.log(__dirname);
 // Have Node serve the files for our built React app

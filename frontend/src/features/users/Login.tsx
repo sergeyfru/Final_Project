@@ -17,10 +17,11 @@ const Login = ({ page }: LoginRegistrationProps) => {
 
     const handleApiResponse = (res:any) => {
         // Assuming the response has the structure: res.payload?.response.data.msg
+      console.log(res);
       
         if (res.payload?.request?.status === 200) {
             console.log('Login => status 200');
-            navigate('/allgames')
+            navigate('/home')
 
         } else {
             setMessage(res.payload?.response.data.msg)
@@ -33,6 +34,7 @@ const Login = ({ page }: LoginRegistrationProps) => {
     const loginUser = async () => {
 
         try {
+console.log('try to get token from localStorage',localStorage.getItem('u_token'));
 
             const res = await dispatch(login({ u_email, p_password }))
 

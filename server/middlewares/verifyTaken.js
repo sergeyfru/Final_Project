@@ -6,9 +6,9 @@ const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY } = process.env
 
 export const verifyToken = (req, res, next) => {
     console.log("COOKIES!!!!!+++++++++++++++++++++++++++++++++++++++++++++++",req.cookies);
-    console.log(req);
-    const accessToken = req.cookies['u_token'] || req.headers['x-access-token'] 
-    const refreshToken = req.cookies['refreshToken'] || req.headers['x-refresh-token']
+    console.log("HEADERS====================================================",req.headers['x-access-token']);
+    const accessToken = req.cookies['u_token'] || req.headers['x-access-token'] || req.localStorage.getItem('u_token')
+    const refreshToken = req.cookies['refreshToken'] || req.headers['x-refresh-token'] ||req.localStorage.getItem('refresh')
 
 
     if (!accessToken) {

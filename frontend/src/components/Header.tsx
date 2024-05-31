@@ -8,17 +8,17 @@ const Header = () => {
             <Button component={Link} to='/home'>
                 Home
             </Button>
-            <Button component={Link} to='/login'>
-                Login
-            </Button>
-            <Button component={Link} to='/register'>
-                Register
-            </Button>
             <Button component={Link} to='/allgames'>
                 All games
             </Button>
             <Button component={Link} to='/mygames'>
                 My games
+            </Button>
+            <Button component={Link} to='/login'>
+                Login
+            </Button>
+            <Button component={Link} to='/register'>
+                Register
             </Button>
         </Stack>
     );

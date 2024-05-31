@@ -1,15 +1,33 @@
+import React from "react"
 import { useState } from "react"
 import { MYURL } from "../../settings.ts"
 import axios from "axios"
-import { User } from "../types/type.ts"
+import { User, LocalStorage } from "../types/type.ts"
+
 
 
 const Home = () => {
     const [users, setUsers] = useState<User[]>([])
+    const [firstname, setFirstName] = useState('')
+    const [lastname, setLastName] = useState('')
 
+    useState(() => {
+        console.log('UseEffect Home');
+        
+        setFirstName(localStorage.firstname)
+        setLastName(localStorage.lastname)
+    })
     const allUsers = async () => {
         try {
-            const response = await axios.get(MYURL)
+            const response = await axios.get(`${MYURL}/users`,
+                {
+                    headers: {
+                        'x-access-token': localStorage.u_token,
+                        'x-refresh-token': localStorage.refresh,
+                    },
+                    withCredentials: true
+                }
+            )
             console.log(response.data);
             setUsers(response.data)
         } catch (error) {
@@ -27,6 +45,7 @@ const Home = () => {
 
     return (
         <>
+            <h2>Welcome, {firstname} {lastname}</h2>
             <button onClick={allUsers}> click</button>
             {
                 users.map(user => {
@@ -43,4 +62,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default React.memo(Home)

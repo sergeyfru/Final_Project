@@ -1,29 +1,19 @@
 import store from "../app/store";
 
 export type BoardGame = {
-    gameId: number;
+    gameid: number;
     name: string;
     image: string;
     thumbnail: string;
     minPlayers: number;
     maxPlayers: number;
+    minplaytime: number;
+    maxplaytime: number;
     playingTime: number;
-    isExpansion: boolean;
     yearPublished: number;
-    bggRating: number;
-    averageRating: number;
-    rank: number;
-    numPlays: number;
-    rating: number;
-    owned: boolean;
-    preOrdered: boolean;
-    forTrade: boolean;
-    previousOwned: boolean;
-    want: boolean;
     wantToPlay: boolean;
-    wantToBuy: boolean;
-    wishList: boolean;
-    userComment: string;
+    description?: string;
+    boardgamecategory?: string;
 };
 export type User = {
     u_id?: string | number,
@@ -53,4 +43,13 @@ export type StoreDispatchType = typeof store.dispatch;
 
 export type LoginRegistrationProps ={
     page:string
+}
+
+export type LocalStorage={
+    refresh?:string,
+    u_token?:string,
+    u_id?:string|number,
+    firstname?:string,
+    lastname?:string
+
 }

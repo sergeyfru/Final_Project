@@ -6,7 +6,10 @@ export const _addToMyList = async (req, res) => {
     const { u_id, gameid } = req.body
     try {
         const addGame = await addToMyList({ u_id, gameid })
-        res.json({ msg: 'Game added', addGame })
+        if (!addGame) {
+           return res.json({ msg: 'You alredy have this game' })
+        }
+        return res.json({ msg: 'Game added', addGame })
     } catch (error) {
         console.log('Games controllers   _addToMyList =>', error);
         res.status(404).json({ msg: 'Games not Added. Something went wrong.' })
@@ -58,8 +61,8 @@ export const _delMyGame = async (req, res) => {
 
     try {
         const afterDel = await delMyGame({ u_id, gameid })
-        
-        res.json({msg:'Game deleted from your collection',newList:afterDel}) 
+
+        res.json({ msg: 'Game deleted from your collection', newList: afterDel })
 
 
 

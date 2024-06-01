@@ -5,16 +5,17 @@ export const addToMyList = async ({ u_id, gameid }) => {
 
     const trx = await db.transaction()
     try {
+        const checkGame = await trx('user_game').select('ug_id', 'u_id', 'gameid').where({ u_id, gameid })
+        if (checkGame.length > 0) {
+            return null
+        }
         await trx('user_game').insert({ u_id, gameid }, ['ug_id', 'u_id', 'gameid'])
 
-        const mygames = await db('user_game')
+        const mygames = await trx('user_game')
             .select('user_game.gameid', 'games.name')
             .join('games', 'games.gameid', '=', 'user_game.gameid')
             .where({ u_id })
-
-
-
-
+ 
         await trx.commit()
         return mygames
 

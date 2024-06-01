@@ -65,3 +65,8 @@ export type DelMyGameProps = {
     gameid: string | number,
     setCollection: (collection: BoardGame[]) => void
 }
+
+export type RandomGameProps = {
+    collection: BoardGame[],
+    setCollection?: (collection: BoardGame[]) => void
+}

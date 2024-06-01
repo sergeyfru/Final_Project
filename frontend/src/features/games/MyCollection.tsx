@@ -3,6 +3,7 @@ import { BoardGame } from "../../types/type"
 import axios from "axios"
 import { MYURL } from "../../../../settings"
 import DelMyGame from "./DelMyGame"
+import RandomGame from "./RandomGame"
 
 
 const MyCollection = () => {
@@ -30,6 +31,7 @@ myGames()
     return (
         <>
             <h2>My Collection: {collection.length}</h2>
+            <RandomGame collection={collection} setCollection={setCollection} />
             {
                 collection.map(game =>{
                     return (

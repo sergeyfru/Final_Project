@@ -5,13 +5,14 @@ export type BoardGame = {
     name: string;
     image: string;
     thumbnail: string;
-    minPlayers: number;
-    maxPlayers: number;
-    minplaytime: number;
-    maxplaytime: number;
-    playingTime: number;
-    yearPublished: number;
-    wantToPlay: boolean;
+    minplayers: number;
+    maxplayers: number;
+    minplaytime?: number;
+    maxplaytime?: number;
+    playingtime: number;
+    yearpublished: number;
+    wanttoplay: boolean;
+    averagerating: number;
     description?: string;
     boardgamecategory?: string;
 };
@@ -52,4 +53,11 @@ export type LocalStorage={
     firstname?:string,
     lastname?:string
 
+}
+
+
+export type SearchingProps={
+    allgames:BoardGame[],
+    filter:BoardGame[],
+    setFilter: (filter:BoardGame[]) =>void
 }

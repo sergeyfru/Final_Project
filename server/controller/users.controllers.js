@@ -54,6 +54,7 @@ export const _login = async (req, res) => {
         const isMatch = bcrypt.compareSync(p_password + '', hashpassword.p_password)
         if (!isMatch) return res.status(404).json({ msg: 'Wrong password' })
         console.log('user in u.con', user);
+    
         const accessToken = jwt.sign(
             {
                 u_id: user.u_id,

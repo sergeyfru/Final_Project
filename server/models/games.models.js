@@ -30,7 +30,7 @@ export const myGames = async ({ u_id }) => {
     try {
 
         const mygames = await db('user_game')
-            .select('user_game.gameid', 'games.name', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .select('user_game.gameid', 'games.name', 'games.averagerating', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
             .join('games', 'games.gameid', '=', 'user_game.gameid')
             .where({ u_id })
 
@@ -45,10 +45,10 @@ export const myGames = async ({ u_id }) => {
 export const allGames = async () => {
     try {
         const allGames = await db('games').select(
-            'gameid', 'name', 'image', 'thumbnail', 'minplayers',
-            'maxplayers', 'minplaytime', 'maxplaytime', 'playingtime', 
+            'gameid', 'name', 'image', 'thumbnail', 'minplayers', 'averagerating',
+            'maxplayers', 'minplaytime', 'maxplaytime', 'playingtime',
             'yearpublished', 'wanttoplay', 'description', 'boardgamecategory'
-        )
+        ).orderBy('name')
         return allGames
     } catch (error) {
         console.log('Error in Game models AllGames =>', error);
@@ -59,7 +59,7 @@ export const allGames = async () => {
 export const fetchGames = async (game) => {
     const {
         gameId, name, image, thumbnail, minPlayers, maxPlayers, minplaytime,
-        maxplaytime, playingTime, yearPublished, wantToPlay, description, boardgamecategory
+        maxplaytime, playingTime, yearPublished, wantToPlay, averageRating, description, boardgamecategory
     } = game
     // console.log(gameId, name, image, thumbnail, minPlayers, maxPlayers, minplaytime,
     //     maxplaytime, playingTime, yearPublished, wantToPlay, description, boardgamecategory);
@@ -69,10 +69,11 @@ export const fetchGames = async (game) => {
             gameid: gameId, name, image, thumbnail, minplayers: minPlayers, maxplayers: maxPlayers,
             // minplaytime, maxplaytime,
             playingtime: playingTime, yearpublished: yearPublished, wanttoplay: wantToPlay,
+            averagerating: averageRating,
             //  description, boardgamecategory
         }, [
             'gameid', 'name', 'image', 'thumbnail', 'minplayers', 'maxplayers', 'minplaytime',
-            'maxplaytime',
+            'maxplaytime', 'averagerating',
             'playingtime', 'yearpublished', 'wanttoplay', 'description', 'boardgamecategory'
         ])
         // console.log(gameInMyDB);

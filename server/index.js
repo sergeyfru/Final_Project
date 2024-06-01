@@ -18,7 +18,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin:[ 'http://localhost:5173', 'https://final-project-htp7.onrender.com'],
+        origin:[ 'http://localhost:5173','http://localhost:5174', 'https://final-project-htp7.onrender.com'],
         credentials:true
     }
 ))

@@ -1,10 +1,13 @@
-import { useState, } from "react"
+import { useEffect, useState, } from "react"
 import { BoardGame } from '../../types/type.ts'
 import axios from "axios"
 import { MYURL } from "../../../settings.ts"
+import { Search } from "react-router-dom"
+import Searching from "./Searching.tsx"
 
 const Game = () => {
     const [allgames, setGames] = useState<BoardGame[]>([])
+    const [filter, setFilter] = useState<BoardGame[]>([])
 
     // const getGame = async () => {
     //     // const resp = await fetch('https://boardgamegeek.com/browse/boardgame')
@@ -23,14 +26,11 @@ const Game = () => {
     // }
     const getGame = async () => {
         try {
-            const u_id = localStorage.getItem('u_id')
-            console.log(u_id);
 
             const response = await axios.get(`${MYURL}/games/all`);
 
-            console.log(response.data);
-            const newArr = response.data
-            console.log(newArr);
+            const newArr = response.data;
+            setFilter(newArr)
             setGames(newArr)
 
         } catch (error) {
@@ -48,25 +48,17 @@ const Game = () => {
     }
 
 
-    const logGame = () => {
-        // console.log(allgames);
-        
-        for(let i = 0; i<allgames.length;i++){
-            console.log(allgames[i]);
-            
-        }
-    }
 
     const addGame = async (game: BoardGame) => {
         try {
             const u_id = localStorage.getItem("u_id")
             const gameid = game.gameid
             const response = await axios.post(`${MYURL}/games/addgame`,
-                {u_id,gameid},
-                {withCredentials: true}
+                { u_id, gameid },
+                { withCredentials: true }
             )
             console.log(response.data);
-            
+            alert(response.data.msg)
 
         } catch (error) {
 
@@ -82,22 +74,30 @@ const Game = () => {
         }
 
     }
-
+    useEffect(() => {
+        getGame()
+    }, [])
 
     return (
         <>
-            <h3>All games {allgames.length}</h3>
-            <button onClick={getGame}>get</button>
-            <button onClick={logGame}>log</button>
+            <h3>All games {filter.length}</h3>
+            <Searching allgames={allgames} filter={filter} setFilter={setFilter} />
+            {/* <button onClick={getGame}>get</button> */}
             {
-                allgames.map((item, i) => {
+                filter.map((item, i) => {
                     // return <h2 key={i}>{item.u_id}</h2>
                     return (
-                        <div key={i}>
-                            <h2>{item.name}</h2>
-                            {/* <img src={item.image} alt="" /> */}
-                            <img src={item.thumbnail} alt="" />
-                            <button onClick={() => addGame(item)}>Add to my collection</button>
+                        <div key={i} style={{display:"flex", border:'1px solid black', margin:'4px'}}>
+                            <div>
+                                <h2>{item.name}</h2>
+                                {/* <img src={item.image} alt="" /> */}
+                                <img src={item.thumbnail} alt="" />
+                            </div>
+                            <div style={{marginLeft:'auto'}}>
+                                <h4>Rating: {item.averagerating}</h4>
+                                <h4> Number of players: {item.minplayers} - {item.maxplayers}</h4>
+                                <button onClick={() => addGame(item)}>Add to my collection</button>
+                            </div>
                         </div>
                     )
                 })

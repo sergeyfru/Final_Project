@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { User, InitialState, EnumRegisterStatus } from "../../types/type.ts";
 import axios from "axios";
-import { MYURL } from "../../../settings.ts";
+import { MYURL } from "../../../../settings.ts";
 
 export const register = createAsyncThunk(`user/register`,
     async ({ u_firstname, u_lastname, u_email, p_password }: User) => {

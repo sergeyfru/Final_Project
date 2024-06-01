@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { BoardGame } from "../../types/type"
 import axios from "axios"
-import { MYURL } from "../../../settings"
+import { MYURL } from "../../../../settings"
 import DelMyGame from "./DelMyGame"
 
 

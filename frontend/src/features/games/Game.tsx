@@ -1,7 +1,7 @@
 import { useEffect, useState, } from "react"
 import { BoardGame } from '../../types/type.ts'
 import axios from "axios"
-import { MYURL } from "../../../settings.ts"
+import { MYURL } from "../../../../settings.ts"
 // import { Search } from "react-router-dom"
 import Searching from "./Searching.tsx"
 
@@ -68,7 +68,7 @@ const Game = () => {
         <>
             <h3>All games {filter.length}</h3>
             <Searching allgames={allgames} filter={filter} setFilter={setFilter} />
-            
+
             {/* <button onClick={getGame}>get</button> */}
             {
                 filter.map((item, i) => {

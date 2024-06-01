@@ -18,7 +18,7 @@ const Searching = ({ allgames, setFilter }: SearchingProps) => {
         })
         console.log(searchGames);
 
-        setFilter(searchGames)
+        setFilter?.(searchGames)
     }
 
     return (

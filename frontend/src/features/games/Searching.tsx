@@ -1,8 +1,8 @@
-import { TextField, Button, Stack } from "@mui/material"
+import {  Stack } from "@mui/material"
 import { useRef } from "react"
 import { BoardGame, SearchingProps } from "../../types/type"
 
-const Searching = ({ allgames, filter, setFilter }: SearchingProps) => {
+const Searching = ({ allgames, setFilter }: SearchingProps) => {
     const searchRef = useRef<HTMLInputElement>(null)
 
 

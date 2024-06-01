@@ -57,7 +57,7 @@ export type LocalStorage={
 
 
 export type SearchingProps={
-    allgames:BoardGame[],
-    filter:BoardGame[],
-    setFilter: (filter:BoardGame[]) =>void
+    allgames?:BoardGame[],
+    filter?:BoardGame[],
+    setFilter?: (filter:BoardGame[]) =>void
 }

@@ -1,7 +1,7 @@
 import axios from "axios"
 import { DelMyGameProps } from "../../types/type"
 import { Button } from "@mui/material"
-import { MYURL } from "../../../../settings"
+import { MYURL } from "../../../../settings/settings"
 
 
 const DelMyGame = ({ gameid ,setCollection}: DelMyGameProps) => {

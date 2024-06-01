@@ -1,7 +1,7 @@
 import { useEffect, useState, } from "react"
 import { BoardGame } from '../../types/type.ts'
 import axios from "axios"
-import { MYURL } from "../../../../settings.ts"
+import { MYURL } from "../../../../settings/settings.ts"
 // import { Search } from "react-router-dom"
 import Searching from "./Searching.tsx"
 

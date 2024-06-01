@@ -57,7 +57,6 @@ export const login = async (u_email) => {
             .select('u_id', 'p_password')
             .where({ u_id: user.u_id })
             .first()
-        console.log(hashpassword);
 
         await trx.commit()
 

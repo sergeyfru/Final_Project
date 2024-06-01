@@ -17,7 +17,6 @@ const MyCollection = () => {
                 { withCredentials: true }
             )
 
-            console.log(resp);
             setCollection(resp.data)
         } catch (error) {
 

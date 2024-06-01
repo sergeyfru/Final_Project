@@ -58,7 +58,7 @@ export const _delMyGame = async (req, res) => {
 
     try {
         const afterDel = await delMyGame({ u_id, gameid })
-        console.log(afterDel);
+        
         res.json({msg:'Game deleted from your collection',newList:afterDel}) 
 
 

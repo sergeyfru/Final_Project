@@ -47,13 +47,13 @@ export const _login = async (req, res) => {
 
         if (!user) {
             
-            console.log('in users controlles => email not found');
+            console.log('Error in users controlles => email not found');
             return res.status(404).json({ msg: 'Email not found' })
         }
 
         const isMatch = bcrypt.compareSync(p_password + '', hashpassword.p_password)
         if (!isMatch) return res.status(404).json({ msg: 'Wrong password' })
-        console.log('user in u.con', user);
+        // console.log('user in u.con', user);
     
         const accessToken = jwt.sign(
             {

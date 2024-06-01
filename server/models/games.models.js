@@ -26,7 +26,6 @@ export const addToMyList = async ({ u_id, gameid }) => {
 }
 
 export const myGames = async ({ u_id }) => {
-    console.log('g.models => allMyGames');
     try {
 
         const mygames = await db('user_game')

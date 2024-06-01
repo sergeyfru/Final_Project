@@ -9,21 +9,7 @@ const Game = () => {
     const [allgames, setGames] = useState<BoardGame[]>([])
     const [filter, setFilter] = useState<BoardGame[]>([])
 
-    // const getGame = async () => {
-    //     // const resp = await fetch('https://boardgamegeek.com/browse/boardgame')
-    //     const response = await axios.get('https://bgg-json.azurewebsites.net/collection/edwalter',
-    //         {
-    //             // headers: {
-    //             //     'x-refresh-token': token?.u_token
-    //             // },
-    //             // withCredentials: true
-    //         }
-    //     )
-
-    //     // const data = await resp.json()
-    //     console.log(response.data);
-    //     setGames(response.data)
-    // }
+   
     const getGame = async () => {
         try {
 
@@ -82,6 +68,7 @@ const Game = () => {
         <>
             <h3>All games {filter.length}</h3>
             <Searching allgames={allgames} filter={filter} setFilter={setFilter} />
+            
             {/* <button onClick={getGame}>get</button> */}
             {
                 filter.map((item, i) => {
@@ -98,6 +85,7 @@ const Game = () => {
                                 <h4> Number of players: {item.minplayers} - {item.maxplayers}</h4>
                                 <button onClick={() => addGame(item)}>Add to my collection</button>
                             </div>
+                            
                         </div>
                     )
                 })

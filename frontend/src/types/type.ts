@@ -31,7 +31,7 @@ export type InitialState = {
     status?: EnumRegisterStatus,
 }
 
-export type RegisterStatus = "Success"|"Failed"|"Loading"
+export type RegisterStatus = "Success" | "Failed" | "Loading"
 
 export enum EnumRegisterStatus {
     Success,
@@ -42,22 +42,26 @@ export enum EnumRegisterStatus {
 export type StoreStateType = ReturnType<typeof store.getState>
 export type StoreDispatchType = typeof store.dispatch;
 
-export type LoginRegistrationProps ={
-    page:string
+export type LoginRegistrationProps = {
+    page: string
 }
 
-export type LocalStorage={
-    refresh?:string,
-    u_token?:string,
-    u_id?:string|number,
-    firstname?:string,
-    lastname?:string
+export type LocalStorage = {
+    refresh?: string,
+    u_token?: string,
+    u_id?: string | number,
+    firstname?: string,
+    lastname?: string
 
 }
 
 
-export type SearchingProps={
-    allgames:BoardGame[],
-    filter?:BoardGame[],
-    setFilter?: (filter:BoardGame[]) =>void
+export type SearchingProps = {
+    allgames: BoardGame[],
+    filter?: BoardGame[],
+    setFilter?: (filter: BoardGame[]) => void
+}
+export type DelMyGameProps = {
+    gameid: string | number,
+    setCollection: (collection: BoardGame[]) => void
 }

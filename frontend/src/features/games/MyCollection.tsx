@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { BoardGame } from "../../types/type"
 import axios from "axios"
 import { MYURL } from "../../../settings"
+import DelMyGame from "./DelMyGame"
 
 
 const MyCollection = () => {
@@ -37,7 +38,7 @@ myGames()
                             <h2>{game.name}</h2>
                             <h3>{game.description}</h3>
                             <img src={game.thumbnail} alt="" />
-                            
+                            <DelMyGame gameid={game.gameid} setCollection={setCollection}/>
                         </div>
                     )
                 })

@@ -84,3 +84,26 @@ export const fetchGames = async (game) => {
         throw new Error('fetchGame failed =>Error in Game models fetchGame')
     }
 }
+
+export const delMyGame = async ({ u_id, gameid }) => {
+    const trx = await db.transaction()
+    try {
+
+        const letDel = await trx('user_game').del().where('gameid', '=', `${gameid}`, '&&', 'u_id', '=', `${u_id}`).returning('gameid', 'name')
+        const notDelList = await trx('user_game')
+            .select('user_game.gameid', 'games.name', 'games.averagerating',
+                'games.thumbnail', 'games.minplayers', 'games.maxplayers',
+                'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .join('games', 'games.gameid', '=', 'user_game.gameid')
+            .where({ u_id })
+
+        trx.commit()
+        return notDelList
+    } catch (error) {
+
+        await trx.rollback()
+        console.log('Error in Game models delMyGame =>', error);
+        throw new Error('delMyGame failed =>Error in Game models delMyGame')
+
+    }
+}

@@ -1,29 +1,37 @@
-import {  Stack } from "@mui/material"
-import { useRef } from "react"
+import { Stack, TextField } from "@mui/material"
+import {  useRef,  } from "react"
 import { BoardGame, SearchingProps } from "../../types/type"
 
 const Searching = ({ allgames, setFilter }: SearchingProps) => {
     const searchRef = useRef<HTMLInputElement>(null)
 
 
-    const search = () => {
+    const searchFunc = () => {
+        
         console.log(searchRef);
         console.log(searchRef.current);
-
         const userInput = searchRef.current?.value.toLowerCase().trim()
-        console.log(userInput);
-
         const searchGames: BoardGame[] = allgames.filter(game => {
-            return game.name.toLowerCase().includes(userInput+'')
-        })
-        console.log(searchGames);
+                    return game.name.toLowerCase().includes(userInput + '')
+                })
+                console.log(searchGames);
+    
+                setFilter?.(searchGames)
+    
 
-        setFilter?.(searchGames)
     }
 
     return (
         <Stack>
-            <input placeholder="Search game" onChange={search} ref={searchRef} />
+            <TextField
+                sx={{ m: 1 }}
+                id='search'
+                type="text"
+                label='Search game'
+                variant="outlined"
+                onChange={searchFunc}
+                inputRef={searchRef}
+            />
 
 
         </Stack>

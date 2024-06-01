@@ -44,24 +44,24 @@ export const login = async (u_email) => {
         //     .first()
         // console.log(user);
         const user = await trx('users')
-            .select('u_id','u_email', 'u_firstname', 'u_lastname')
-            .where( {u_email})
+            .select('u_id', 'u_email', 'u_firstname', 'u_lastname')
+            .where({ u_email })
             .first()
-        if(!user) {
+        if (!user) {
             console.log('user models => user not found');
             await trx.rollback()
-            return  {user:null,hashpassword:null}
+            return { user: null, hashpassword: null }
         }
-        
+
         const hashpassword = await trx('passwords')
             .select('u_id', 'p_password')
-            .where( {u_id:user.u_id})
+            .where({ u_id: user.u_id })
             .first()
         console.log(hashpassword);
 
         await trx.commit()
 
-        return {user,hashpassword} 
+        return { user, hashpassword }
     } catch (error) {
         await trx.rollback()
         console.log('Error in User models Login =>', error);
@@ -69,3 +69,6 @@ export const login = async (u_email) => {
 
     }
 }
+
+
+

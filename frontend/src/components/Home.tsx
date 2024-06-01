@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { useState } from "react"
-import { MYURL } from "../../../settings.ts"
-import axios from "axios"
-import { User, } from "../types/type.ts"
+// import { MYURL } from "../../../settings.ts"
+// import axios from "axios"
+// import { User, } from "../types/type.ts"
 
 
 

@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react"
 import { BoardGame } from "../../types/type"
 import axios from "axios"
-import { MYURL } from "../../../../settings/settings"
-import DelMyGame from "./DelMyGame"
-import RandomGame from "./RandomGame"
 
+import DelMyGame from "./DelMyGame.tsx"
+import RandomGame from "./RandomGame.tsx"
+import { MYURL } from "../../../../settings/settings.ts"
+// import dotenv from 'dotenv'
+// dotenv.config();
+// const {MYURL } = process.env
+
+// console.log('process.env',process.env);
 
 const MyCollection = () => {
     const [collection, setCollection] = useState<BoardGame[]>([])

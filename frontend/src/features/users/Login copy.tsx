@@ -5,14 +5,12 @@ import { Box, Button, TextField, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { login } from "./user_slice";
 import { useAppDispatch } from "../../app/store";
-import { useAuthContext } from "../../App";
 
 const Login = ({ page }: LoginRegistrationProps) => {
     const [message, setMessage] = useState('')
     const [u_email, setEmail] = useState('')
     const [p_password, setPassword] = useState('')
-    const dispatch = useAppDispatch()
-    // const checkUser = useLogin()
+    
     const navigate = useNavigate()
 
 
@@ -22,8 +20,8 @@ const Login = ({ page }: LoginRegistrationProps) => {
 
         if (res.payload?.request?.status === 200) {
             console.log('Login => status 200');
-            
             navigate('/home')
+
         } else {
             setMessage(res.payload?.response.data.msg)
             console.log('Login => status not 200');
@@ -33,27 +31,18 @@ const Login = ({ page }: LoginRegistrationProps) => {
 
 
     const loginUser = async () => {
-
+        const dispatch = useAppDispatch()
         try {
-            console.log('try to get token from localStorage', localStorage.getItem('u_token'));
+            console.log(u_email, p_password);
 
             const res = await dispatch(login({ u_email, p_password }))
 
             console.log('res = >', res);
             handleApiResponse(res)
-            // if (res.payload?.request?.status === 200) {
-            //     console.log('Login => status 200');
-            //     navigate('/allgames')
 
-            // } else {
-            //     setMessage(res.payload?.response.data.msg)
-            //     console.log('Login => status not 200');
-            // }
 
         } catch (error) {
             console.log('Login', error);
-
-
 
         }
 

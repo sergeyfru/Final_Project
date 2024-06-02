@@ -1,9 +1,9 @@
-import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 
 import bcrypt from 'bcrypt'
 import { register, all, login } from '../models/users.models.js'
 
+import dotenv from 'dotenv'
 dotenv.config();
 
 const { ACCESS_TOKEN_EXPIRY, ACCESS_TOKEN_SECRET } = process.env
@@ -92,7 +92,6 @@ export const _login = async (req, res) => {
         })
 
         res.json({ u_token: accessToken, user, refreshToken })
-
     } catch (error) {
         console.log('Users controllers _login =>', error);
         res.status(404).json({ msg: 'Login failed' })

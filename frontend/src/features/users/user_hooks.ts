@@ -14,7 +14,7 @@ export const useRegister = () => {
 
     return useCallback(({ u_firstname, u_lastname, u_email, p_password }:User) => {
 
-        dispatch(register({ u_firstname, u_lastname, u_email, p_password }))
+      dispatch(register({ u_firstname, u_lastname, u_email, p_password }))
 
     }, [dispatch])
 }

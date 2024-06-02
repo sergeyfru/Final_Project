@@ -1,9 +1,14 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk,  } from "@reduxjs/toolkit";
 // import { createSlice, nanoid, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { User, InitialState, EnumRegisterStatus } from "../../types/type.ts";
+import { useAuthContext } from "../../App.tsx";
+import { User, InitialState, EnumRegisterStatus, InitialStatePayload } from "../../types/type.ts";
 import axios from "axios";
 import { MYURL } from "../../../../settings/settings.ts";
+
+
+
+
 
 export const register = createAsyncThunk(`user/register`,
     async ({ u_firstname, u_lastname, u_email, p_password }: User) => {
@@ -30,9 +35,12 @@ export const register = createAsyncThunk(`user/register`,
             }
         }
     })
-
+   
 export const login = createAsyncThunk('user/login',
     async ({ u_email, p_password }: User) => {
+        console.log('in use slice=>');
+        console.log('in use slice=>2');
+        
         try {
             const response = await axios.post(`${MYURL}/users/login`,
                 { u_email, p_password },
@@ -106,10 +114,12 @@ export const userSlice = createSlice({
             .addCase(login.rejected, (state,) => {
                 state.status = EnumRegisterStatus.Failed
             })
-            .addCase(login.fulfilled, (state,) => {
+            // .addCase(login.fulfilled, (state,action: InitialStatePayload) => {
+            .addCase(login.fulfilled, (state) => {
                 state.status = EnumRegisterStatus.Success
-                // state.user = action.payload
-                // state.u_token = 
+            //     state.user = action.payload.user
+            //     state.u_token = action.payload.u_token
+            //     state.refreshToken = action.payload.refreshToken
             })
 
     }

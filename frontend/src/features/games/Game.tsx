@@ -1,23 +1,30 @@
-import { useEffect, useState, } from "react"
+import React, { useEffect, useState, } from "react"
 import { BoardGame } from '../../types/type.ts'
 import axios from "axios"
-import { MYURL } from "../../../../settings/settings.ts"
-// import { Search } from "react-router-dom"
 import Searching from "./Searching.tsx"
+import { getAllGames } from "./games_slice.ts"
+import { MYURL } from "../../../../settings/settings.ts"
+import { useAppDispatch, useAppSelector } from "../../app/store.ts"
+import { useGetAllGames } from "./game_hook.ts"
+
 
 const Game = () => {
-    const [allgames, setGames] = useState<BoardGame[]>([])
-    const [filter, setFilter] = useState<BoardGame[]>([])
 
+const dispatch = useAppDispatch()
+
+const allgames:BoardGame[] = useAppSelector(state => state.gamesReducer.allGames)
    
     const getGame = async () => {
+        
         try {
 
-            const response = await axios.get(`${MYURL}/games/all`);
+            const response = await dispatch(getAllGames())
 
-            const newArr = response.data;
-            setFilter(newArr)
-            setGames(newArr)
+            console.log(response);
+            
+            // const newArr = response.d;
+            // setFilter(newArr)
+            // setGames(newArr)
 
         } catch (error) {
 
@@ -61,17 +68,19 @@ const Game = () => {
 
     }
     useEffect(() => {
-        getGame()
+        getGame(),
+        console.log(allgames);
+
     }, [])
 
     return (
         <>
-            <h3>All games {filter.length}</h3>
-            <Searching allgames={allgames} filter={filter} setFilter={setFilter} />
+            <h3>All games {allgames.length}</h3>
+            <Searching allgames={allgames} />
 
-            {/* <button onClick={getGame}>get</button> */}
+            <button onClick={getGame}>get</button>
             {
-                filter.map((item, i) => {
+                allgames.map((item, i) => {
                     // return <h2 key={i}>{item.u_id}</h2>
                     return (
                         <div key={i} style={{display:"flex", border:'1px solid black', margin:'4px'}}>
@@ -93,4 +102,4 @@ const Game = () => {
         </>
     )
 }
-export default Game
+export default React.memo(Game)

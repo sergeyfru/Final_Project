@@ -1,12 +1,15 @@
 import { useDispatch,useSelector,TypedUseSelectorHook } from "react-redux";
-import { configureStore, combineReducers, } from "@reduxjs/toolkit";
+import { configureStore, } from "@reduxjs/toolkit";
 import userReducer from "../features/users/user_slice.ts";
+import gamesReducer  from "../features/games/games_slice.ts";
 import { StoreDispatchType,StoreStateType } from "../types/type.ts";
 
-const combineReducersAPP = combineReducers({ userReducer })
 
 const store = configureStore({
-    reducer:combineReducersAPP
+    reducer:{
+        userReducer,
+        gamesReducer
+    }
 })
 
 

@@ -1,13 +1,17 @@
 import React, { useEffect } from "react"
 import { useState } from "react"
-// import { MYURL } from "../../../settings.ts"
-// import axios from "axios"
-// import { User, } from "../types/type.ts"
+import axios from "axios"
+import { User, } from "../types/type.ts"
 
+import { MYURL } from "../../../settings/settings"
 
+// import dotenv from 'dotenv'
+// dotenv.config();
+
+// const {MYURL } = process.env
 
 const Home = () => {
-    // const [users, setUsers] = useState<User[]>([])
+    const [users, setUsers] = useState<User[]>([])
     const [firstname, setFirstName] = useState('')
     const [lastname, setLastName] = useState('')
     const [disp, setDisp] = useState('none')
@@ -31,27 +35,27 @@ const Home = () => {
         }
 
 
-        // try {
-        //     const response = await axios.get(`${MYURL}/users`,
-        //         {
-        //             headers: {
-        //                 'x-access-token': localStorage.u_token,
-        //                 'x-refresh-token': localStorage.refresh,
-        //             },
-        //             withCredentials: true
-        //         }
-        //     )
-        //     console.log(response.data);
-        //     setUsers(response.data)
-        // } catch (error) {
+        try {
+            const response = await axios.get(`${MYURL}/users`,
+                {
+                    headers: {
+                        'x-access-token': localStorage.u_token,
+                        'x-refresh-token': localStorage.refresh,
+                    },
+                    withCredentials: true
+                }
+            )
+            console.log(response.data);
+            setUsers(response.data)
+        } catch (error) {
 
-        //     if (axios.isAxiosError(error)) {
-        //         console.error('Axios error', error.message);
-        //     } else {
-        //         console.error('Unexpected error', error);
-        //     }
+            if (axios.isAxiosError(error)) {
+                console.error('Axios error', error.message);
+            } else {
+                console.error('Unexpected error', error);
+            }
 
-        // }
+        }
 
     }
 
@@ -63,7 +67,7 @@ const Home = () => {
             <div style={{ display: disp }}>
                 <h1>{firstname}, stop clicking!!!</h1>
             </div>
-            {/* {
+            {
                 users.map(user => {
                     return (
                         <div key={user.u_id}>
@@ -73,7 +77,7 @@ const Home = () => {
                         </div>
                     )
                 })
-            } */}
+            }
         </>
     )
 }

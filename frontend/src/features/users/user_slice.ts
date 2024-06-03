@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk,  } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction, } from "@reduxjs/toolkit";
 // import { createSlice, nanoid, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { useAuthContext } from "../../App.tsx";
@@ -35,12 +35,12 @@ export const register = createAsyncThunk(`user/register`,
             }
         }
     })
-   
+
 export const login = createAsyncThunk('user/login',
     async ({ u_email, p_password }: User) => {
         console.log('in use slice=>');
         console.log('in use slice=>2');
-        
+
         try {
             const response = await axios.post(`${MYURL}/users/login`,
                 { u_email, p_password },
@@ -115,12 +115,20 @@ export const userSlice = createSlice({
                 state.status = EnumRegisterStatus.Failed
             })
             // .addCase(login.fulfilled, (state,action: InitialStatePayload) => {
-            .addCase(login.fulfilled, (state) => {
-                state.status = EnumRegisterStatus.Success
+            // state.status = EnumRegisterStatus.Success
             //     state.user = action.payload.user
             //     state.u_token = action.payload.u_token
             //     state.refreshToken = action.payload.refreshToken
+            // })
+            .addCase(login.fulfilled, (state) => {
+            state.status = EnumRegisterStatus.Success
             })
+            // .addCase(login.fulfilled, (state, action: PayloadAction<InitialStatePayload>) => {
+            //     state.status = EnumRegisterStatus.Success;
+            //     state.user = action.payload.user;
+            //     state.u_token = action.payload.u_token;
+            //     state.refreshToken = action.payload.refreshToken;
+            // });
 
     }
 })

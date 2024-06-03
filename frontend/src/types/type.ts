@@ -77,11 +77,11 @@ export type RandomGameProps = {
 }
 
 export type InitialStatePayload ={
-    payload:{
+   
         refreshToken: string,
         u_token: string,
         user:{} 
-    }
+    
 }
 
 export type AuthContextType ={

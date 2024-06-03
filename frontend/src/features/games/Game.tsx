@@ -1,4 +1,4 @@
-import React, { useEffect, useState, } from "react"
+import React, { useEffect,  } from "react"
 import { BoardGame } from '../../types/type.ts'
 import axios from "axios"
 import Searching from "./Searching.tsx"

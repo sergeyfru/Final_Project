@@ -2,15 +2,14 @@ import React, { useEffect,  } from "react"
 import { BoardGame } from '../../types/type.ts'
 import axios from "axios"
 import Searching from "./Searching.tsx"
-import { getAllGames } from "./games_slice.ts"
 import { MYURL } from "../../../../settings/settings.ts"
-import { useAppDispatch, useAppSelector } from "../../app/store.ts"
+import {  useAppSelector } from "../../app/store.ts"
 import { useGetAllGames } from "./game_hook.ts"
 
 
 const Game = () => {
 
-const dispatch = useAppDispatch()
+const dispatch = useGetAllGames()
 
 const allgames:BoardGame[] = useAppSelector(state => state.gamesReducer.allGames)
    
@@ -18,7 +17,7 @@ const allgames:BoardGame[] = useAppSelector(state => state.gamesReducer.allGames
         
         try {
 
-            const response = await dispatch(getAllGames())
+            const response = await dispatch()
 
             console.log(response);
             

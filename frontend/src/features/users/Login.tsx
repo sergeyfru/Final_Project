@@ -5,7 +5,6 @@ import { Box, Button, TextField, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { login } from "./user_slice";
 import { useAppDispatch } from "../../app/store";
-import { useAuthContext } from "../../App";
 
 const Login = ({ page }: LoginRegistrationProps) => {
     const [message, setMessage] = useState('')

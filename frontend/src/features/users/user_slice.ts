@@ -1,8 +1,6 @@
-import { createSlice, createAsyncThunk, PayloadAction, } from "@reduxjs/toolkit";
-// import { createSlice, nanoid, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk,  } from "@reduxjs/toolkit";
 
-import { useAuthContext } from "../../App.tsx";
-import { User, InitialState, EnumRegisterStatus, InitialStatePayload } from "../../types/type.ts";
+import { User, InitialState, EnumRegisterStatus, } from "../../types/type.ts";
 import axios from "axios";
 import { MYURL } from "../../../../settings/settings.ts";
 

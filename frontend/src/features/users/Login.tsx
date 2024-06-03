@@ -22,7 +22,7 @@ const Login = ({ page }: LoginRegistrationProps) => {
         if (res.payload?.u_token ) {
             console.log('Login => status 200');
             
-            navigate('/home')
+            navigate('/allgames')
         } else {
             setMessage(res.payload?.response.data.msg)
             console.log('Login => status not 200');

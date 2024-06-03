@@ -56,21 +56,52 @@ export const allGames = async () => {
     }
 }
 
+export const updateFetchGames = async(game)=>{
+    const {
+        gameid, name, image, thumbnail, minplayers, maxplayers, minplaytime,
+        maxplaytime, playingtime, yearpublished, wanttoplay, averagerating, description, boardgamecategory
+    } = game
+    
+    try {
+        const [gameInMyDB] = await db('games').update({
+            gameid, name, image, thumbnail, minplayers, maxplayers, minplaytime,
+            maxplaytime, playingtime, yearpublished, wanttoplay, averagerating, description, boardgamecategory
+        }, [
+            'gameid', 'name', 'image', 'thumbnail', 'minplayers', 'maxplayers', 'minplaytime',
+            'maxplaytime', 'averagerating',
+            'playingtime', 'yearpublished', 'wanttoplay', 'description', 'boardgamecategory'
+        ])
+        .where({gameid})
+        // console.log(gameInMyDB);
+        return gameInMyDB
+
+    } catch (error) {
+        console.log('Error in Game models fetchGame =>', error);
+        throw new Error('fetchGame failed =>Error in Game models fetchGame')
+    }
+}
+
 export const fetchGames = async (game) => {
     const {
         gameId, name, image, thumbnail, minPlayers, maxPlayers, minplaytime,
         maxplaytime, playingTime, yearPublished, wantToPlay, averageRating, description, boardgamecategory
     } = game
-    // console.log(gameId, name, image, thumbnail, minPlayers, maxPlayers, minplaytime,
-    //     maxplaytime, playingTime, yearPublished, wantToPlay, description, boardgamecategory);
-    // return 'we are reached endpoint'
+    console.log(gameId, name, image, thumbnail, minPlayers, maxPlayers, minplaytime,
+        maxplaytime, playingTime, yearPublished, wantToPlay, description, boardgamecategory);
+    // return {msg:'we are reached endpoint',game:{
+    //     gameid: gameId, name, image, thumbnail, minplayers: minPlayers, maxplayers: maxPlayers,
+    //     minplaytime, maxplaytime,
+    //     playingtime: playingTime, yearpublished: yearPublished, wanttoplay: wantToPlay,
+    //     averagerating: averageRating,
+    //      description, boardgamecategory
+    // }}
     try {
         const [gameInMyDB] = await db('games').insert({
             gameid: gameId, name, image, thumbnail, minplayers: minPlayers, maxplayers: maxPlayers,
-            // minplaytime, maxplaytime,
+            minplaytime, maxplaytime,
             playingtime: playingTime, yearpublished: yearPublished, wanttoplay: wantToPlay,
             averagerating: averageRating,
-            //  description, boardgamecategory
+             description, boardgamecategory
         }, [
             'gameid', 'name', 'image', 'thumbnail', 'minplayers', 'maxplayers', 'minplaytime',
             'maxplaytime', 'averagerating',

@@ -46,7 +46,7 @@ export const _login = async (req, res) => {
         const { user, hashpassword } = await login(u_email.toLowerCase())
 
         if (!user) {
-            
+
             console.log('Error in users controlles => email not found');
             return res.status(404).json({ msg: 'Email not found' })
         }
@@ -54,7 +54,7 @@ export const _login = async (req, res) => {
         const isMatch = bcrypt.compareSync(p_password + '', hashpassword.p_password)
         if (!isMatch) return res.status(404).json({ msg: 'Wrong password' })
         // console.log('user in u.con', user);
-    
+
         const accessToken = jwt.sign(
             {
                 u_id: user.u_id,
@@ -64,13 +64,13 @@ export const _login = async (req, res) => {
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: ACCESS_TOKEN_EXPIRY || '1m'
+                expiresIn: ACCESS_TOKEN_EXPIRY|| 60000 || '1m'
             }
         );
 
         res.cookie('u_token', accessToken, {
             httpOnly: true,
-            maxAge: ACCESS_TOKEN_EXPIRY || '1m'
+            maxAge: ACCESS_TOKEN_EXPIRY|| 60000 || '1m'
         })
 
         const refreshToken = jwt.sign(
@@ -82,13 +82,13 @@ export const _login = async (req, res) => {
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000
+                expiresIn: ACCESS_TOKEN_EXPIRY * 60
             }
         )
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            maxAge: ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000
+            maxAge: ACCESS_TOKEN_EXPIRY * 60
         })
 
         res.json({ u_token: accessToken, user, refreshToken })

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import store from "../app/store";
 
 export type BoardGame = {
     gameid: number;
@@ -31,9 +30,10 @@ export type InitialState = {
     refreshToken: string | null | undefined,
     status?: EnumRegisterStatus,
 }
-export type GamesInitialState ={
+export type GamesInitialState = {
     allGames: BoardGame[],
-    mygames:BoardGame[],
+    filter: BoardGame[],
+    mygames: BoardGame[],
     status?: EnumRegisterStatus,
 }
 export type RegisterStatus = "Success" | "Failed" | "Loading"
@@ -44,8 +44,7 @@ export enum EnumRegisterStatus {
     Loading
 }
 
-export type StoreStateType = ReturnType<typeof store.getState>
-export type StoreDispatchType = typeof store.dispatch;
+
 
 export type LoginRegistrationProps = {
     page: string
@@ -62,9 +61,9 @@ export type LocalStorage = {
 
 
 export type SearchingProps = {
-    allgames: BoardGame[],
-    filter?: BoardGame[],
-    setFilter?: (filter: BoardGame[]) => void
+    allgames?: BoardGame[],
+    filter: BoardGame[],
+    setFilter: (filter: BoardGame[]) => void
 }
 export type DelMyGameProps = {
     gameid: string | number,
@@ -76,20 +75,31 @@ export type RandomGameProps = {
     setCollection?: (collection: BoardGame[]) => void
 }
 
-export type InitialStatePayload ={
-   
-        refreshToken: string,
-        u_token: string,
-        user:{} 
-    
+export type InitialStatePayload = {
+
+    refreshToken: string,
+    u_token: string,
+    user: {}
+
 }
 
-export type AuthContextType ={
-    token: string |number | null
-    refreshToken: string |number | null
-    setToken: React.Dispatch<React.SetStateAction<string |number | null>>
-    setRefreshToken: React.Dispatch<React.SetStateAction<string |number | null>>
+export type AuthContextType = {
+    token: string | number | null
+    refreshToken: string | number | null
+    setToken: React.Dispatch<React.SetStateAction<string | number | null>>
+    setRefreshToken: React.Dispatch<React.SetStateAction<string | number | null>>
 }
-export type ProviderProps= {
-    children:ReactNode
+export type ProviderProps = {
+    children: ReactNode
+}
+
+export type AddGameSliceType = {
+    u_id: string | number | null,
+    gameid: number | string | null
+}
+
+export type SearchGamesType = {
+    userInput: string | number | null | undefined,
+    // setFilter: (filter: BoardGame[]) => void,
+    allgames: BoardGame[]
 }

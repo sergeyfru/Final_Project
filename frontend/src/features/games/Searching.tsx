@@ -1,23 +1,27 @@
 import { Stack, TextField } from "@mui/material"
-import {  useRef,  } from "react"
-import { BoardGame, SearchingProps } from "../../types/type"
+import { useRef, } from "react"
+import {  SearchingProps } from "../../types/type"
+import { useAppDispatch, useAppSelector } from "../../app/store"
+import { searchGames } from "./games_slice"
 
-const Searching = ({ allgames, setFilter }: SearchingProps) => {
+const Searching = ({  }: SearchingProps) => {
     const searchRef = useRef<HTMLInputElement>(null)
-
+    const allgames = useAppSelector(state => state.gamesReducer.allGames)
+    const dispatch = useAppDispatch()
 
     const searchFunc = () => {
-        
         console.log(searchRef);
         console.log(searchRef.current);
         const userInput = searchRef.current?.value.toLowerCase().trim()
-        const searchGames: BoardGame[] = allgames.filter(game => {
-                    return game.name.toLowerCase().includes(userInput + '')
-                })
-                console.log(searchGames);
-    
-                setFilter?.(searchGames)
-    
+
+        dispatch(searchGames({ userInput,  allgames }))
+        // const searchGames: BoardGame[] = allgames.filter(game => {
+        //     return game.name.toLowerCase().includes(userInput + '')
+        // })
+        // console.log(searchGames);
+
+        // setFilter?.(searchGames)
+
 
     }
 

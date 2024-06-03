@@ -1,4 +1,4 @@
-import { myGames, allGames, addToMyList, fetchGames, delMyGame } from "../models/games.models.js";
+import { myGames, allGames, addToMyList, fetchGames, delMyGame,updateFetchGames } from "../models/games.models.js";
 
 
 
@@ -7,7 +7,7 @@ export const _addToMyList = async (req, res) => {
     try {
         const addGame = await addToMyList({ u_id, gameid })
         if (!addGame) {
-           return res.json({ msg: 'You alredy have this game' })
+            return res.json({ msg: 'You alredy have this game' })
         }
         return res.json({ msg: 'Game added', addGame })
     } catch (error) {
@@ -43,7 +43,16 @@ export const _allGames = async (req, res) => {
 
     }
 }
-
+export const _updateFetchGames = async (req, res) => {
+    const { game } = req.body
+    try {
+        const plusGame = await updateFetchGames(game)
+        res.json(plusGame)
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({ msg: 'we are not fineshed(' })
+    }
+}
 
 export const _fetchGames = async (req, res) => {
     const { game } = req.body

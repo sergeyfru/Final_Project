@@ -2,7 +2,7 @@ import { useDispatch,useSelector,TypedUseSelectorHook } from "react-redux";
 import { configureStore, } from "@reduxjs/toolkit";
 import userReducer from "../features/users/user_slice.ts";
 import gamesReducer  from "../features/games/games_slice.ts";
-import { StoreDispatchType,StoreStateType } from "../types/type.ts";
+// import { StoreDispatchType, StoreStateType } from "../types/type.ts";
 
 
 const store = configureStore({
@@ -12,7 +12,8 @@ const store = configureStore({
     }
 })
 
-
+export type StoreStateType = ReturnType<typeof store.getState>
+export type StoreDispatchType = typeof store.dispatch;
 
 export const useAppDispatch: () => StoreDispatchType = useDispatch;
 

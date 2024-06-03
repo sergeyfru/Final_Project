@@ -11,7 +11,7 @@ router.post('/login', _login);
 router.get('/', verifyToken, _all)
 
 router.get('/verify', verifyToken, (req, res) => {
-    console.log(req);
+    
 
     res.sendStatus(200)
 })

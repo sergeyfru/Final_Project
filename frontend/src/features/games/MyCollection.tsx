@@ -5,11 +5,7 @@ import axios from "axios"
 import DelMyGame from "./DelMyGame.tsx"
 import RandomGame from "./RandomGame.tsx"
 import { MYURL } from "../../../../settings/settings.ts"
-// import dotenv from 'dotenv'
-// dotenv.config();
-// const {MYURL } = process.env
 
-// console.log('process.env',process.env);
 
 const MyCollection = () => {
     const [collection, setCollection] = useState<BoardGame[]>([])
@@ -29,22 +25,22 @@ const MyCollection = () => {
         }
     }
 
-useEffect(()=>{
-myGames()
-},[])
+    useEffect(() => {
+        myGames()
+    }, [])
 
     return (
         <>
             <h2>My Collection: {collection.length}</h2>
             <RandomGame collection={collection} setCollection={setCollection} />
             {
-                collection.map(game =>{
+                collection.map(game => {
                     return (
                         <div key={game.gameid}>
                             <h2>{game.name}</h2>
                             <h3>{game.description}</h3>
                             <img src={game.thumbnail} alt="" />
-                            <DelMyGame gameid={game.gameid} setCollection={setCollection}/>
+                            <DelMyGame gameid={game.gameid} setCollection={setCollection} />
                         </div>
                     )
                 })
@@ -53,4 +49,4 @@ myGames()
     )
 }
 
-export default React.memo( MyCollection)
+export default React.memo(MyCollection)

@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk,  } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction, } from "@reduxjs/toolkit";
 
-import { User, InitialState, EnumRegisterStatus, } from "../../types/type.ts";
+import { User, InitialState, EnumRegisterStatus, InitialStatePayload, } from "../../types/type.ts";
 import axios from "axios";
 import { MYURL } from "../../../../settings/settings.ts";
 
@@ -53,12 +53,13 @@ export const login = createAsyncThunk('user/login',
                 localStorage.setItem('refresh', response.data.refreshToken);
                 localStorage.setItem('firstname', response.data.user.u_firstname);
                 localStorage.setItem('lastname', response.data.user.u_lastname);
+                return response.data
             }
             console.log('user_slice res.data=>', response.data);
             console.log('user_slice res=>', response);
 
 
-            return response
+
 
         } catch (error) {
 
@@ -109,24 +110,15 @@ export const userSlice = createSlice({
             .addCase(login.pending, (state,) => {
                 state.status = EnumRegisterStatus.Loading
             })
-            .addCase(login.rejected, (state,) => {
-                state.status = EnumRegisterStatus.Failed
-            })
-            // .addCase(login.fulfilled, (state,action: InitialStatePayload) => {
-            // state.status = EnumRegisterStatus.Success
-            //     state.user = action.payload.user
-            //     state.u_token = action.payload.u_token
-            //     state.refreshToken = action.payload.refreshToken
+            // .addCase(login.fulfilled, (state) => {
+            //     state.status = EnumRegisterStatus.Success
             // })
-            .addCase(login.fulfilled, (state) => {
-            state.status = EnumRegisterStatus.Success
+            .addCase(login.fulfilled, (state, action: PayloadAction<InitialStatePayload>) => {
+                state.status = EnumRegisterStatus.Success;
+                state.user = action.payload.user;
+                state.u_token = action.payload.u_token;
+                state.refreshToken = action.payload.refreshToken;
             })
-            // .addCase(login.fulfilled, (state, action: PayloadAction<InitialStatePayload>) => {
-            //     state.status = EnumRegisterStatus.Success;
-            //     state.user = action.payload.user;
-            //     state.u_token = action.payload.u_token;
-            //     state.refreshToken = action.payload.refreshToken;
-            // });
 
     }
 })

@@ -1,14 +1,15 @@
 
 import Login from "../features/users/Login"
-import {  useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { MYURL } from "../../../settings/settings"
 import axios from "axios"
 import { ProviderProps } from "../types/type"
-import {  useAuthContext } from "../App.tsx"
+import { useAppSelector } from "../app/store.ts"
 
 
-const Auth = ({ children }:ProviderProps) => {
-    const { token, refreshToken,  } = useAuthContext()
+const Auth = ({ children }: ProviderProps) => {
+    const refreshToken = useAppSelector(state=> state.userReducer.refreshToken)
+    const token = useAppSelector(state=> state.userReducer.u_token)
     const [redirect, setRedirect] = useState(false)
 
     useEffect(() => {
@@ -17,9 +18,9 @@ const Auth = ({ children }:ProviderProps) => {
 
     const verify = async () => {
         console.log('hi');
-        
-        console.log(token,refreshToken);
-        
+
+        console.log(token, refreshToken);
+
         try {
             const response = await axios.get(`${MYURL}/users/verify`, {
                 headers: {
@@ -28,7 +29,13 @@ const Auth = ({ children }:ProviderProps) => {
                 },
                 withCredentials: true,
             })
-            if (response.status === 200) setRedirect(true)
+            if (response.status === 200) {
+                setRedirect(true)
+            } else {
+                console.log(response);
+                
+            }
+
 
         } catch (error) {
             setRedirect(false)

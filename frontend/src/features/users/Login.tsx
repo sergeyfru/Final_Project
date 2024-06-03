@@ -19,7 +19,7 @@ const Login = ({ page }: LoginRegistrationProps) => {
         // Assuming the response has the structure: res.payload?.response.data.msg
         console.log(res);
 
-        if (res.payload?.request?.status === 200) {
+        if (res.payload?.u_token ) {
             console.log('Login => status 200');
             
             navigate('/home')

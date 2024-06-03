@@ -1,9 +1,10 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { useState } from "react"
 import axios from "axios"
 import { User, } from "../types/type.ts"
 
 import { MYURL } from "../../../settings/settings"
+import { useAppSelector } from "../app/store.ts"
 
 // import dotenv from 'dotenv'
 // dotenv.config();
@@ -15,7 +16,7 @@ const Home = () => {
     const [firstname, setFirstName] = useState('')
     const [lastname, setLastName] = useState('')
     const [disp, setDisp] = useState('none')
-
+const name = useAppSelector(state => state.userReducer.user.u_firstname)
     useEffect(() => {
         console.log('UseEffect Home');
 
@@ -62,7 +63,7 @@ const Home = () => {
 
     return (
         <>
-            <h2>Welcome, {firstname} {lastname}</h2>
+            <h2>Welcome, {name} {lastname}</h2>
             <button onClick={allUsers}> click</button>
             <div style={{ display: disp }}>
                 <h1>{firstname}, stop clicking!!!</h1>
@@ -82,4 +83,5 @@ const Home = () => {
     )
 }
 
-export default React.memo(Home)
+// export default React.memo(Home)
+export default Home

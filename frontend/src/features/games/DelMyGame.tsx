@@ -8,7 +8,7 @@ import { MYURL } from "../../../../settings/settings.ts"
 // dotenv.config();
 // const {MYURL } = process.env
 
-const DelMyGame = ({ gameid ,setCollection}: DelMyGameProps) => {
+const DelMyGame = ({ gameid, setCollection }: DelMyGameProps) => {
     const u_id = localStorage.getItem("u_id")
 
     const delGame = async () => {
@@ -17,11 +17,11 @@ const DelMyGame = ({ gameid ,setCollection}: DelMyGameProps) => {
                 { u_id, gameid },
                 { withCredentials: true }
             )
-if(afterDel.status === 200){
+            if (afterDel.status === 200) {
 
-    setCollection(afterDel.data.newList)
-    alert(afterDel.data.msg)
-}
+                setCollection(afterDel.data.newList)
+                alert(afterDel.data.msg)
+            }
 
 
         } catch (error) {

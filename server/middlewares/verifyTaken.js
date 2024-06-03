@@ -54,16 +54,28 @@ const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY } = process.env
 
 
 export const verifyToken = (req, res, next) => {
-    console.log("COOKIES!!!!!+++++++++++++++++++++++++++++++++++++++++++++++",req.cookies);
+    // console.log("COOKIES!!!!!+++++++++++++++++++++++++++++++++++++++++++++++",req.cookies);
     // console.log("HEADERS====================================================",req.headers['x-access-token']);
-    
+
     const accessToken = req.cookies['u_token'] || req.headers['x-access-token']
     const refreshToken = req.cookies['refreshToken'] || req.headers['x-refresh-token']
-
+    console.log("Im in verify");
     if (!accessToken) {
-        if (!refreshToken) return res.status(403).json({ msg: 'Token verification failed => Unauthorized' })
+
+        console.log("access expired");
+        console.log('log refresh token', refreshToken);
+
+        if (!refreshToken) {
+            console.log("refresh expired");
+            return res.status(403).json({ msg: 'Token verification failed => Unauthorized' })
+        }
+
         jwt.verify(refreshToken, ACCESS_TOKEN_SECRET, (err, decode) => {
-            if (err) return res.status(403).json({ msg: 'Refresh token verification failed => Forbidden' })
+            console.log('refresh verify');
+            if (err) {
+                console.log('Refresh token not correct');
+                return res.status(403).json({ msg: 'Refresh token verification failed => Forbidden' })
+            }
 
             const newAccessToken = jwt.sign(
                 {
@@ -81,7 +93,7 @@ export const verifyToken = (req, res, next) => {
             req.user = decode
             res.cookie('u_token', newAccessToken, {
                 httpOnly: true,
-                 maxAge: ACCESS_TOKEN_EXPIRY || 60000
+                maxAge: ACCESS_TOKEN_EXPIRY || 60000
             })
         })
 
@@ -94,21 +106,25 @@ export const verifyToken = (req, res, next) => {
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: '1d'
+                expiresIn: ACCESS_TOKEN_EXPIRY * 60 || ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000
             }
         )
-        res.cookie('refreshToken', newRefreshToken, { httpOnly: true, maxAge: ACCESS_TOKEN_EXPIRY * 60 * 24 ||86400000 })
-    }
 
-    jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, decode) => {
-        if (err) {
-            console.log('Access token expired');
-
-
-        }
-        // set user into request
-        req.user = decode
+        res.cookie('refreshToken', newRefreshToken, { httpOnly: true, maxAge: ACCESS_TOKEN_EXPIRY * 60 || ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000 })
         next()
-    })
+    } else {
+
+        jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, decode) => {
+            if (err) {
+                console.log('Access token not correct');
+
+                return res.status(403).json({ msg: 'Access token verification failed => Forbidden' })
+            }
+            console.log('veryfi is fineshed. all is good');
+            // set user into request
+            req.user = decode
+            next()
+        })
+    }
 
 }

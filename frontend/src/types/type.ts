@@ -7,14 +7,14 @@ export type BoardGame = {
     thumbnail: string;
     minplayers: number;
     maxplayers: number;
-    minplaytime?: number;
-    maxplaytime?: number;
+    minplaytime: number;
+    maxplaytime: number;
     playingtime: number;
     yearpublished: number;
     wanttoplay: boolean;
     averagerating: number;
-    description?: string;
-    boardgamecategory?: string;
+    description: string;
+    boardgamecategory: string;
 };
 export type User = {
     u_id?: string | number,
@@ -102,4 +102,25 @@ export type SearchGamesType = {
     userInput: string | number | null | undefined,
     // setFilter: (filter: BoardGame[]) => void,
     allgames: BoardGame[]
+}
+
+export type InitialStateSelector = {
+    category: string[] | number[],
+    inputSearch: string | number | null
+    inputcategory: string  | null,
+    inputminTime: string | null,
+    inputmaxTime: string | null,
+    inputmaxPlayerNumber: string | null,
+    inputminPlayerNumber: string | null,
+
+}
+
+export type FilteringGamesType = {
+    inputSearch: string | number | null
+    inputCategory: string | null,
+    inputMinTime: string | null,
+    inputMaxTime: string | null,
+    inputMaxPlayerNumber: string | null,
+    inputMinPlayerNumber: string | null,
+
 }

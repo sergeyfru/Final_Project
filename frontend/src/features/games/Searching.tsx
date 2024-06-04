@@ -1,44 +1,24 @@
-import { Stack, TextField } from "@mui/material"
-import { useRef, } from "react"
-import {  SearchingProps } from "../../types/type"
+import { Button } from "@mui/material"
 import { useAppDispatch, useAppSelector } from "../../app/store"
-import { searchGames } from "./games_slice"
+import { filteringGames } from "./games_slice"
 
-const Searching = ({  }: SearchingProps) => {
-    const searchRef = useRef<HTMLInputElement>(null)
-    const allgames = useAppSelector(state => state.gamesReducer.allGames)
+const Searching = () => {
+
+    const inputSearch = useAppSelector(state => state.selectorReducer.inputSearch)
+    const inputCategory = useAppSelector(state => state.selectorReducer.inputcategory)
+    const inputMinTime = useAppSelector(state => state.selectorReducer.inputminTime)
+    const inputMaxTime = useAppSelector(state => state.selectorReducer.inputmaxTime)
+    const inputMaxPlayerNumber = useAppSelector(state => state.selectorReducer.inputmaxPlayerNumber)
+    const inputMinPlayerNumber = useAppSelector(state => state.selectorReducer.inputminPlayerNumber)
     const dispatch = useAppDispatch()
 
-    const searchFunc = () => {
-        console.log(searchRef);
-        console.log(searchRef.current);
-        const userInput = searchRef.current?.value.toLowerCase().trim()
-
-        dispatch(searchGames({ userInput,  allgames }))
-        // const searchGames: BoardGame[] = allgames.filter(game => {
-        //     return game.name.toLowerCase().includes(userInput + '')
-        // })
-        // console.log(searchGames);
-
-        // setFilter?.(searchGames)
-
-
+    const filteringGame = () => {
+        dispatch(filteringGames({ inputCategory, inputMaxTime, inputMinTime, inputSearch, inputMaxPlayerNumber, inputMinPlayerNumber }))
     }
 
     return (
-        <Stack>
-            <TextField
-                sx={{ m: 1 }}
-                id='search'
-                type="text"
-                label='Search game'
-                variant="outlined"
-                onChange={searchFunc}
-                inputRef={searchRef}
-            />
 
-
-        </Stack>
+        <Button variant="contained" onClick={filteringGame} sx={{ m: 1 }} >Search</Button>
     )
 }
 

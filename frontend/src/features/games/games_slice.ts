@@ -1,26 +1,20 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { AddGameSliceType, BoardGame, EnumRegisterStatus, GamesInitialState, SearchGamesType, SearchingProps } from "../../types/type"
+import { AddGameSliceType, BoardGame, EnumRegisterStatus, FilteringGamesType, GamesInitialState, SearchGamesType, } from "../../types/type"
 import axios from "axios";
-import { MYURL } from "../../../../settings/settings";
 
 
 const initialState: GamesInitialState = {
     allGames: [],
-    filter:[],
+    filter: [],
     mygames: [],
     status: EnumRegisterStatus.Success,
 }
 
 export const getAllGames = createAsyncThunk('games/all',
-    async ({ setFilter }: SearchingProps) => {
+    async () => {
         try {
 
-            const response = await axios.get(`${MYURL}/games/all`);
-
-            console.log('games slice=>', response);
-            console.log('games slice=> data', response.data);
-
-            setFilter(response.data)
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/games/all`);
 
             return response.data;
 
@@ -44,7 +38,7 @@ export const addGameSlice = createAsyncThunk('games/addgame',
     async ({ u_id, gameid }: AddGameSliceType) => {
         try {
 
-            const response = await axios.post(`${MYURL}/games/addgame`,
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/games/addgame`,
                 { u_id, gameid },
                 { withCredentials: true }
             )
@@ -69,12 +63,57 @@ export const gamesSlice = createSlice({
     name: 'games',
     initialState,
     reducers: {
-        searchGames:(state,action:PayloadAction<SearchGamesType>)=>{
+        searchGames: (state, action: PayloadAction<SearchGamesType>) => {
             const searchGames: BoardGame[] = action.payload.allgames.filter(game => {
                 return game.name.toLowerCase().includes(action.payload.userInput + '')
             })
             // action.payload.setFilter(searchGames)
             state.filter = searchGames
+        },
+        filteringGames: (state, action: PayloadAction<FilteringGamesType>) => {
+            const inputSearch = action.payload.inputSearch
+            const inputCategory = action.payload.inputCategory
+            const inputMinTime = action.payload.inputMinTime
+            const inputMaxTime = action.payload.inputMaxTime
+            const inputmaxPlayerNumber = action.payload.inputMaxPlayerNumber
+            const inputminPlayerNumber = action.payload.inputMinPlayerNumber
+            
+            state.filter = state.allGames
+
+            if (inputSearch && inputSearch !== '') {
+                state.filter = state.filter.filter(game => {
+                    return game.name.toLowerCase().includes(`${inputSearch}`)
+                })
+
+            }
+            if (inputCategory && inputCategory !== '') {
+                console.log('inputCategory',inputCategory);
+                
+                state.filter = state.filter.filter(game => game.boardgamecategory.toLowerCase() === inputCategory.toLowerCase())
+            }
+            if (inputMinTime && inputMinTime !== '') {
+                console.log('inputMinTime', typeof inputMinTime, inputMinTime);
+                
+                state.filter = state.filter.filter(game => game.minplaytime >= parseInt(inputMinTime))
+            }
+            if (inputMaxTime && inputMaxTime !== '') {
+                console.log('inputMaxTime',typeof inputMaxTime,inputMaxTime);
+                
+                state.filter = state.filter.filter(game => game.maxplaytime <= parseInt(inputMaxTime))
+            }
+            if (inputminPlayerNumber && inputminPlayerNumber !== '') {
+                console.log('inputminPlayerNumber',typeof inputminPlayerNumber,inputminPlayerNumber);
+                
+                state.filter = state.filter.filter(game => game.minplayers >= parseInt(inputminPlayerNumber))
+            }
+            if (inputmaxPlayerNumber && inputmaxPlayerNumber !== '') {
+                console.log('inputmaxPlayerNumber',typeof inputmaxPlayerNumber,inputmaxPlayerNumber);
+                
+                state.filter = state.filter.filter(game => game.maxplayers <= parseInt(inputmaxPlayerNumber))
+            }
+
+            console.log(state.filter);
+
         }
     },
     extraReducers(builder) {
@@ -106,8 +145,8 @@ export const gamesSlice = createSlice({
 
 export const {
     searchGames,
-
- } = gamesSlice.actions
+    filteringGames
+} = gamesSlice.actions
 
 
 

@@ -2,18 +2,12 @@ import axios from "axios"
 import { DelMyGameProps } from "../../types/type"
 import { Button } from "@mui/material"
 
-import { MYURL } from "../../../../settings/settings.ts"
-
-// import dotenv from 'dotenv'
-// dotenv.config();
-// const {MYURL } = process.env
-
 const DelMyGame = ({ gameid, setCollection }: DelMyGameProps) => {
     const u_id = localStorage.getItem("u_id")
 
     const delGame = async () => {
         try {
-            const afterDel = await axios.post(`${MYURL}/games/delmy`,
+            const afterDel = await axios.post(`${import.meta.env.VITE_API_URL}/games/delmy`,
                 { u_id, gameid },
                 { withCredentials: true }
             )

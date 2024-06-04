@@ -3,13 +3,7 @@ import { useState } from "react"
 import axios from "axios"
 import { User, } from "../types/type.ts"
 
-import { MYURL } from "../../../settings/settings"
 import { useAppSelector } from "../app/store.ts"
-
-// import dotenv from 'dotenv'
-// dotenv.config();
-
-// const {MYURL } = process.env
 
 const Home = () => {
     const [users, setUsers] = useState<User[]>([])
@@ -37,7 +31,7 @@ const name = useAppSelector(state => state.userReducer.user.u_firstname)
 
 
         try {
-            const response = await axios.get(`${MYURL}/users`,
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users`,
                 {
                     headers: {
                         'x-access-token': localStorage.u_token,

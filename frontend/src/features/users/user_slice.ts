@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction, } from "@reduxjs/toolkit"
 
 import { User, InitialState, EnumRegisterStatus, InitialStatePayload, } from "../../types/type.ts";
 import axios from "axios";
-import { MYURL } from "../../../../settings/settings.ts";
+// import { MYURL } from "../../../../settings/settings.ts";
 
 
 
@@ -12,7 +12,7 @@ export const register = createAsyncThunk(`user/register`,
     async ({ u_firstname, u_lastname, u_email, p_password }: User) => {
         try {
 
-            const response = await axios.post(`${MYURL}/users/register`,
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register`,
                 { u_firstname, u_lastname, u_email, p_password },
                 { withCredentials: true }
             )
@@ -40,7 +40,7 @@ export const login = createAsyncThunk('user/login',
         console.log('in use slice=>2');
 
         try {
-            const response = await axios.post(`${MYURL}/users/login`,
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`,
                 { u_email, p_password },
                 { withCredentials: true }
             )

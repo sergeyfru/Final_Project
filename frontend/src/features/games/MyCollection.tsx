@@ -4,7 +4,6 @@ import axios from "axios"
 
 import DelMyGame from "./DelMyGame.tsx"
 import RandomGame from "./RandomGame.tsx"
-import { MYURL } from "../../../../settings/settings.ts"
 
 
 const MyCollection = () => {
@@ -14,7 +13,7 @@ const MyCollection = () => {
         try {
             const u_id = localStorage.getItem("u_id")
 
-            const resp = await axios.post(`${MYURL}/games/mygames`,
+            const resp = await axios.post(`${import.meta.env.VITE_API_URL}/games/mygames`,
                 { u_id },
                 { withCredentials: true }
             )

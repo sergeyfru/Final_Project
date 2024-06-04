@@ -50,6 +50,7 @@ const Category = () => {
                     label="Category"
                     onChange={handleChange}
                 >
+                    <MenuItem value={``} >Any</MenuItem>
                     {
                         category.map((item, i) => {
                             return <MenuItem value={`${item}`} key={i}>{item}</MenuItem>

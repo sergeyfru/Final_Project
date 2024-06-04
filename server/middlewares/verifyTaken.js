@@ -86,14 +86,14 @@ export const verifyToken = (req, res, next) => {
                 },
                 ACCESS_TOKEN_SECRET,
                 {
-                    expiresIn: ACCESS_TOKEN_EXPIRY || 60000,
+                    expiresIn: ACCESS_TOKEN_EXPIRY 
 
                 }
             );
             req.user = decode
             res.cookie('u_token', newAccessToken, {
                 httpOnly: true,
-                maxAge: ACCESS_TOKEN_EXPIRY || 60000
+                maxAge: ACCESS_TOKEN_EXPIRY 
             })
         })
 
@@ -106,11 +106,11 @@ export const verifyToken = (req, res, next) => {
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: ACCESS_TOKEN_EXPIRY * 60 || ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000
+                expiresIn: ACCESS_TOKEN_EXPIRY * 24 
             }
         )
 
-        res.cookie('refreshToken', newRefreshToken, { httpOnly: true, maxAge: ACCESS_TOKEN_EXPIRY * 60 || ACCESS_TOKEN_EXPIRY * 60 * 24 || 86400000 })
+        res.cookie('refreshToken', newRefreshToken, { httpOnly: true, maxAge: ACCESS_TOKEN_EXPIRY * 24 })
         next()
     } else {
 

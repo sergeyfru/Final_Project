@@ -43,6 +43,7 @@ export const login = async (u_email) => {
         //     .where( 'users.u_email',u_email)
         //     .first()
         // console.log(user);
+        
         const user = await trx('users')
             .select('u_id', 'u_email', 'u_firstname', 'u_lastname')
             .where({ u_email })
@@ -69,5 +70,8 @@ export const login = async (u_email) => {
     }
 }
 
+export const addfriend = async () => {
+
+}
 
 

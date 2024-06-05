@@ -1,48 +1,51 @@
-import React, { useEffect, useState } from "react"
-import { BoardGame } from "../../types/type"
-import axios from "axios"
+import React, { useEffect,  } from "react"
+import {  EnumRegisterStatus } from "../../types/type"
 
 import DelMyGame from "./DelMyGame.tsx"
 import RandomGame from "./RandomGame.tsx"
+import { useAppSelector } from "../../app/store.ts"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { useGetMyGames } from "./game_hook.ts"
 
 
 const MyCollection = () => {
-    const [collection, setCollection] = useState<BoardGame[]>([])
+    const collection = useAppSelector(state => state.gamesReducer.mygames)
+    const gameStore = useAppSelector(state => state.gamesReducer)
+    const getMyGames = useGetMyGames()
+    const u_id = localStorage.getItem('u_id')
 
     const myGames = async () => {
-        try {
-            const u_id = localStorage.getItem("u_id")
+        getMyGames({u_id})
 
-            const resp = await axios.post(`${import.meta.env.VITE_API_URL}/games/mygames`,
-                { u_id },
-                { withCredentials: true }
-            )
-
-            setCollection(resp.data)
-        } catch (error) {
-
-        }
     }
 
     useEffect(() => {
         myGames()
-    }, [])
+    }, [gameStore.randomGame])
 
     return (
         <>
             <h2>My Collection: {collection.length}</h2>
-            <RandomGame collection={collection} setCollection={setCollection} />
             {
-                collection.map(game => {
-                    return (
-                        <div key={game.gameid}>
-                            <h2>{game.name}</h2>
-                            <h3>{game.description}</h3>
-                            <img src={game.thumbnail} alt="" />
-                            <DelMyGame gameid={game.gameid} setCollection={setCollection} />
-                        </div>
-                    )
-                })
+                gameStore.status === EnumRegisterStatus.Loading ? <FontAwesomeIcon icon={faSpinner} spinPulse style={{ fontSize: "64px" }} /> :
+
+                    <>
+                        <RandomGame  />
+                        {
+                            collection.map(game => {
+                                return (
+                                    <div key={game.gameid}>
+                                        <h2>{game.name}</h2>
+                                        <h3>{game.description}</h3>
+                                        <img src={game.thumbnail} alt="" />
+                                        <DelMyGame gameid={game.gameid} />
+                                    </div>
+                                )
+                            })
+
+                        }
+                    </>
             }
         </>
     )

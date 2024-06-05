@@ -35,6 +35,7 @@ export type GamesInitialState = {
     filter: BoardGame[],
     mygames: BoardGame[],
     status?: EnumRegisterStatus,
+    randomGame?: BoardGame
 }
 export type RegisterStatus = "Success" | "Failed" | "Loading"
 
@@ -67,7 +68,11 @@ export type SearchingProps = {
 }
 export type DelMyGameProps = {
     gameid: string | number,
-    setCollection: (collection: BoardGame[]) => void
+    // setCollection: (collection: BoardGame[]) => void
+}
+export type DelMyGameType = {
+    gameid: string | number,
+    u_id: string|null
 }
 
 export type RandomGameProps = {
@@ -107,7 +112,7 @@ export type SearchGamesType = {
 export type InitialStateSelector = {
     category: string[] | number[],
     inputSearch: string | number | null
-    inputcategory: string  | null,
+    inputcategory: string | null,
     inputminTime: string | null,
     inputmaxTime: string | null,
     inputmaxPlayerNumber: string | null,
@@ -123,4 +128,11 @@ export type FilteringGamesType = {
     inputMaxPlayerNumber: string | null,
     inputMinPlayerNumber: string | null,
 
+}
+export type MyGames = {
+    u_id: number | string|null
+}
+
+export type RandomGame = {
+    randindex: number
 }

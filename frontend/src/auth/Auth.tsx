@@ -3,12 +3,11 @@ import Login from "../features/users/Login"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { ProviderProps } from "../types/type"
-import { useAppSelector } from "../app/store.ts"
 
 
 const Auth = ({ children }: ProviderProps) => {
-    const refreshToken = useAppSelector(state=> state.userReducer.refreshToken)
-    const token = useAppSelector(state=> state.userReducer.u_token)
+    const refreshToken = localStorage.getItem('refresh')
+    const token = localStorage.getItem('u_token')
     const [redirect, setRedirect] = useState(false)
 
     useEffect(() => {

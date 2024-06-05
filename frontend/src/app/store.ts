@@ -3,6 +3,7 @@ import { configureStore, } from "@reduxjs/toolkit";
 import userReducer from "../features/users/user_slice.ts";
 import gamesReducer  from "../features/games/games_slice.ts";
 import selectorReducer from "../features/selectors/selector_slice.ts";
+import friendsReducer from "../features/friends/friends_slice.ts";
 // import { StoreDispatchType, StoreStateType } from "../types/type.ts";
 
 
@@ -11,6 +12,7 @@ const store = configureStore({
         userReducer,
         gamesReducer,
         selectorReducer,
+        friendsReducer
     }
 })
 

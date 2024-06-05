@@ -1,63 +1,35 @@
-import { useEffect } from "react"
+import React from "react"
 import { useState } from "react"
-import axios from "axios"
-import { User, } from "../types/type.ts"
 
-import { useAppSelector } from "../app/store.ts"
+import { useAppDispatch, useAppSelector } from "../app/store.ts"
+import { getAllUsers } from "../features/friends/friends_slice.ts"
 
 const Home = () => {
-    const [users, setUsers] = useState<User[]>([])
-    const [firstname, setFirstName] = useState('')
-    const [lastname, setLastName] = useState('')
+    const users = useAppSelector(state => state.friendsReducer.filteredUsers)
+    const firstname = localStorage.getItem('firstname')
+    const lastname = localStorage.getItem('lastname')
+    const u_id = localStorage.getItem('u_id')
     const [disp, setDisp] = useState('none')
-const name = useAppSelector(state => state.userReducer.user.u_firstname)
-    useEffect(() => {
-        console.log('UseEffect Home');
-
-        setFirstName(localStorage.firstname)
-        setLastName(localStorage.lastname)
-    }, [])
+    const dispatch = useAppDispatch()
+    
 
     const allUsers = async () => {
-        console.log('hi');
-        
         if (disp === 'none') {
 
             setDisp('block')
-        }else{
-            
+        } else {
+
             setDisp('none')
         }
 
-
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users`,
-                {
-                    headers: {
-                        'x-access-token': localStorage.u_token,
-                        'x-refresh-token': localStorage.refresh,
-                    },
-                    withCredentials: true
-                }
-            )
-            console.log(response.data);
-            setUsers(response.data)
-        } catch (error) {
-
-            if (axios.isAxiosError(error)) {
-                console.error('Axios error', error.message);
-            } else {
-                console.error('Unexpected error', error);
-            }
-
-        }
+        dispatch(getAllUsers({u_id} ))
 
     }
 
 
     return (
         <>
-            <h2>Welcome, {name} {lastname}</h2>
+            <h2>Welcome, {firstname} {lastname} {u_id}</h2>
             <button onClick={allUsers}> click</button>
             <div style={{ display: disp }}>
                 <h1>{firstname}, stop clicking!!!</h1>
@@ -66,7 +38,8 @@ const name = useAppSelector(state => state.userReducer.user.u_firstname)
                 users.map(user => {
                     return (
                         <div key={user.u_id}>
-                            <h2>{user.u_firstname} {user.u_lastname}</h2>
+                            <h2>ID:{user.u_id} ,{user.u_firstname} {user.u_lastname}</h2>
+                           
                             <h3>{user.u_email}</h3>
 
                         </div>
@@ -77,5 +50,5 @@ const name = useAppSelector(state => state.userReducer.user.u_firstname)
     )
 }
 
-// export default React.memo(Home)
-export default Home
+export default React.memo(Home)
+// export default Home

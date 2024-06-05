@@ -8,6 +8,7 @@ import Login from './features/users/Login.tsx'
 import Home from './components/Home.tsx'
 import MyCollection from './features/games/MyCollection.tsx'
 import Auth from './auth/Auth.tsx'
+import Friends from './features/friends/Friends.tsx'
 
 
 
@@ -27,7 +28,7 @@ function App() {
         <Route path='/mygames' element={<MyCollection />} /> */}
         
         <Route path='/' element={<Auth><Home /></Auth>} />
-        <Route path='/home' element={<Auth><Home /></Auth>} />
+        <Route path='/home' element={<Auth><Friends /></Auth>} />
         <Route path='/login' element={<Login page={'Login'}/>} />
         <Route path='/register' element={<Registration page={'Registration'}/>} />
         <Route path='/allgames' element={<Auth><Game /></Auth>} />

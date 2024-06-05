@@ -17,7 +17,7 @@ export type BoardGame = {
     boardgamecategory: string;
 };
 export type User = {
-    u_id?: string | number,
+    u_id?: string | number|null|undefined,
     u_firstname?: string,
     u_lastname?: string,
     u_email?: string,
@@ -30,6 +30,12 @@ export type InitialState = {
     refreshToken: string | null | undefined,
     status?: EnumRegisterStatus,
 }
+export type InitialStateFriends ={
+    allUsers: User[],
+    filteredUsers: User[]
+    myFriends:[],
+    status: EnumLoadingStatus,
+}
 export type GamesInitialState = {
     allGames: BoardGame[],
     filter: BoardGame[],
@@ -40,6 +46,11 @@ export type GamesInitialState = {
 export type RegisterStatus = "Success" | "Failed" | "Loading"
 
 export enum EnumRegisterStatus {
+    Success,
+    Failed,
+    Loading
+}
+export enum EnumLoadingStatus {
     Success,
     Failed,
     Loading
@@ -77,8 +88,12 @@ export type DelMyGameType = {
 
 export type RandomGameProps = {
     collection: BoardGame[],
+
     setCollection?: (collection: BoardGame[]) => void
+
 }
+
+
 
 export type InitialStatePayload = {
 
@@ -135,4 +150,9 @@ export type MyGames = {
 
 export type RandomGame = {
     randindex: number
+}
+
+export type AddFriend = {
+    user_id_1: string|number
+    u2_email: string
 }

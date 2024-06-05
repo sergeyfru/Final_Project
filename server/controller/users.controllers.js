@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 import bcrypt from 'bcrypt'
-import { register, all, login } from '../models/users.models.js'
+import { register, all, login,  } from '../models/users.models.js'
 
 import dotenv from 'dotenv'
 dotenv.config();
@@ -97,3 +97,5 @@ export const _login = async (req, res) => {
         res.status(404).json({ msg: 'Login failed' })
     }
 }
+
+

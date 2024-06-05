@@ -76,6 +76,10 @@ export const login = createAsyncThunk('user/login',
     }
 )
 
+
+
+
+
 export const initialState: InitialState = {
     user: {
         u_id: '',
@@ -106,13 +110,13 @@ export const userSlice = createSlice({
                 state.status = EnumRegisterStatus.Success
                 // state.user = action.payload
             })
-
+            
             .addCase(login.pending, (state,) => {
                 state.status = EnumRegisterStatus.Loading
             })
-            // .addCase(login.fulfilled, (state) => {
-            //     state.status = EnumRegisterStatus.Success
-            // })
+            .addCase(login.rejected, (state,) => {
+                state.status = EnumRegisterStatus.Failed
+            })
             .addCase(login.fulfilled, (state, action: PayloadAction<InitialStatePayload>) => {
                 state.status = EnumRegisterStatus.Success;
                 state.user = action.payload.user;

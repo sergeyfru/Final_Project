@@ -4,9 +4,11 @@ import {
     // useAddFriend,
     useGetAllUsersWithoutThisUser
 } from "./frieds_hooks"
-import { TextField } from "@mui/material"
+import { Button, Stack, TextField } from "@mui/material"
 import { useAppSelector } from "../../app/store"
 import AddFriend from "./AddFriend"
+import { nanoid } from "@reduxjs/toolkit"
+import HomeNav from "./HomeNav"
 
 
 const Friends = () => {
@@ -24,7 +26,8 @@ const Friends = () => {
     }, [])
 
     return (
-        <>
+        <div key={464}>
+            <HomeNav />
             <h2>Friends</h2>
 
 
@@ -32,27 +35,28 @@ const Friends = () => {
                 sx={{ m: 1 }}
                 id='search'
                 type="search"
-                label='Search game'
+                label='Search user'
                 variant="outlined"
                 onChange={searchFunc}
             />
 
             {
-                users.map(user => {
+                users.map((user,) => {
                     return (
-                        <div>
-                        <div key={user.u_id}>
-                            <h2>{user.u_firstname} {user.u_lastname}</h2>
+                        <Stack direction="row" sx={{ m: 2 }} style={{ justifyContent: "space-between", alignContent: "center", border: "1px solid black", padding: '0 8px', borderRadius:"4px" }} key={nanoid()}>
+                            <Stack>
+                                <h2>{user.u_firstname} {user.u_lastname}</h2>
+                                <h3>{user.u_email}</h3>
+                            </Stack>
+                            <Stack sx={{ m: 1, alignContent: "center", justifyContent: 'space-evenly' }}>
+                                <AddFriend user_id_2={user.u_id} />
 
-                            <h3>{user.u_email}</h3>
-
-                        </div>
-                        <AddFriend />
-                        </div>
+                            </Stack>
+                        </Stack>
                     )
                 })
             }
-        </>
+        </div>
     )
 }
 

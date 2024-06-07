@@ -9,12 +9,12 @@ const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY } = process.env
 
 
 export const verifyToken = (req, res, next) => {
-    // console.log("COOKIES!!!!!+++++++++++++++++++++++++++++++++++++++++++++++",req.cookies);
+    console.log("COOKIES!!!!!+++++++++++++++++++++++++++++++++++++++++++++++",req.cookies);
     // console.log("HEADERS====================================================",req.headers['x-access-token']);
 
     const accessToken = req.cookies['u_token'] || req.headers['x-access-token']
     const refreshToken = req.cookies['refreshToken'] || req.headers['x-refresh-token']
-    console.log("Im in verify");
+    console.log("Im in verify", accessToken, refreshToken);
     if (!accessToken) {
 
         console.log("access expired");
@@ -41,14 +41,14 @@ export const verifyToken = (req, res, next) => {
                 },
                 ACCESS_TOKEN_SECRET,
                 {
-                    expiresIn: ACCESS_TOKEN_EXPIRY 
+                    expiresIn: ACCESS_TOKEN_EXPIRY
 
                 }
             );
             req.user = decode
             res.cookie('u_token', newAccessToken, {
                 httpOnly: true,
-                maxAge: ACCESS_TOKEN_EXPIRY 
+                maxAge: ACCESS_TOKEN_EXPIRY
             })
         })
 
@@ -61,7 +61,7 @@ export const verifyToken = (req, res, next) => {
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: ACCESS_TOKEN_EXPIRY * 24 
+                expiresIn: ACCESS_TOKEN_EXPIRY * 24
             }
         )
 
@@ -83,3 +83,6 @@ export const verifyToken = (req, res, next) => {
     }
 
 }
+
+
+

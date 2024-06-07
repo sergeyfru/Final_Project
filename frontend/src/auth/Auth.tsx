@@ -19,6 +19,7 @@ const Auth = ({ children }: ProviderProps) => {
         console.log('AUTH','token',token, 'refreshToken', refreshToken);
 
         try {
+            // axios.defaults.withCredentials= true
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/verify`, {
                 headers: {
                     "x-access-token": token,

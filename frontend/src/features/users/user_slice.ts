@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction, } from "@reduxjs/toolkit";
 
-import { User, InitialState, EnumRegisterStatus, InitialStatePayload, } from "../../types/type.ts";
+import { User, InitialState, EnumRegisterStatus, InitialStatePayload, EnumLoginStatus, } from "../../types/type.ts";
 import axios from "axios";
-// import { MYURL } from "../../../../settings/settings.ts";
-
-
-
 
 
 export const register = createAsyncThunk(`user/register`,
@@ -77,7 +73,27 @@ export const login = createAsyncThunk('user/login',
 )
 
 
+export const logOut = createAsyncThunk('users/logout',
+    async () => {
 
+        try {
+
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/logout`);
+
+            return response;
+
+        } catch (error) {
+
+            if (axios.isAxiosError(error)) {
+                console.log('Axios error', error);
+                return error
+
+            } else {
+                console.error('Unexpected error', error);
+            }
+        }
+
+    })
 
 
 export const initialState: InitialState = {
@@ -89,6 +105,7 @@ export const initialState: InitialState = {
     },
     u_token: null,
     refreshToken: null,
+    isisLogedIn:EnumLoginStatus.Logout
 }
 
 
@@ -100,6 +117,19 @@ export const userSlice = createSlice({
     },
     extraReducers(builder) {
         builder
+            .addCase(logOut.pending, (state,) => {
+                state.status = EnumRegisterStatus.Loading
+            })
+            .addCase(logOut.rejected, (state,) => {
+                state.status = EnumRegisterStatus.Failed
+            })
+            .addCase(logOut.fulfilled, (state,) => {
+                state.status = EnumRegisterStatus.Success
+                state.isisLogedIn = EnumLoginStatus.Logout
+                state.u_token = null,
+                state.refreshToken = null
+
+            })
             .addCase(register.pending, (state,) => {
                 state.status = EnumRegisterStatus.Loading
             })
@@ -108,9 +138,8 @@ export const userSlice = createSlice({
             })
             .addCase(register.fulfilled, (state,) => {
                 state.status = EnumRegisterStatus.Success
-                // state.user = action.payload
             })
-            
+
             .addCase(login.pending, (state,) => {
                 state.status = EnumRegisterStatus.Loading
             })
@@ -119,6 +148,7 @@ export const userSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action: PayloadAction<InitialStatePayload>) => {
                 state.status = EnumRegisterStatus.Success;
+                state.isisLogedIn = EnumLoginStatus.Login
                 state.user = action.payload.user;
                 state.u_token = action.payload.u_token;
                 state.refreshToken = action.payload.refreshToken;

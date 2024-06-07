@@ -17,7 +17,7 @@ export type BoardGame = {
     boardgamecategory: string;
 };
 export type User = {
-    u_id?: string | number|null|undefined,
+    u_id?: string | number | null | undefined,
     u_firstname?: string,
     u_lastname?: string,
     u_email?: string,
@@ -29,11 +29,20 @@ export type InitialState = {
     u_token: string | null | undefined,
     refreshToken: string | null | undefined,
     status?: EnumRegisterStatus,
+    isisLogedIn:EnumLoginStatus
 }
-export type InitialStateFriends ={
+export type FriendUser = {
+    u_id: string|number ,
+    u_email: string,
+    u_firstname: string,
+    u_lastname: string,
+    agreement: boolean,
+    sent:boolean
+}
+export type InitialStateFriends = {
     allUsers: User[],
     filteredUsers: User[]
-    myFriends:[],
+    myFriends: FriendUser[],
     status: EnumLoadingStatus,
 }
 export type GamesInitialState = {
@@ -43,8 +52,23 @@ export type GamesInitialState = {
     status?: EnumRegisterStatus,
     randomGame?: BoardGame
 }
+export type InitialStateSelector = {
+    category: string[] | number[],
+    inputSearch: string | number | null
+    inputcategory: string | null,
+    inputminTime: string | null,
+    inputmaxTime: string | null,
+    inputmaxPlayerNumber: string | null,
+    inputminPlayerNumber: string | null,
+
+}
+
 export type RegisterStatus = "Success" | "Failed" | "Loading"
 
+export enum EnumLoginStatus {
+    Login,
+    Logout
+}
 export enum EnumRegisterStatus {
     Success,
     Failed,
@@ -83,7 +107,7 @@ export type DelMyGameProps = {
 }
 export type DelMyGameType = {
     gameid: string | number,
-    u_id: string|null
+    u_id: string | null
 }
 
 export type RandomGameProps = {
@@ -124,16 +148,7 @@ export type SearchGamesType = {
     allgames: BoardGame[]
 }
 
-export type InitialStateSelector = {
-    category: string[] | number[],
-    inputSearch: string | number | null
-    inputcategory: string | null,
-    inputminTime: string | null,
-    inputmaxTime: string | null,
-    inputmaxPlayerNumber: string | null,
-    inputminPlayerNumber: string | null,
 
-}
 
 export type FilteringGamesType = {
     inputSearch: string | number | null
@@ -145,7 +160,7 @@ export type FilteringGamesType = {
 
 }
 export type MyGames = {
-    u_id: number | string|null
+    u_id: number | string | null
 }
 
 export type RandomGame = {
@@ -153,6 +168,16 @@ export type RandomGame = {
 }
 
 export type AddFriend = {
-    user_id_1: string|number
-    u2_email: string
+    user_id_1: string | number | null
+    user_id_2: string | number | null | undefined
+}
+// export type UserProved = {
+//     u_id: string | number | null ,
+//     u_firstname: string,
+//     u_lastname: string,
+//     u_email: string,
+// }
+export type AddFriendProps = {
+    user_id_2: string | number | null | undefined
+
 }

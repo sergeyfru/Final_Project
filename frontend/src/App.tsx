@@ -8,7 +8,11 @@ import Login from './features/users/Login.tsx'
 import Home from './components/Home.tsx'
 import MyCollection from './features/games/MyCollection.tsx'
 import Auth from './auth/Auth.tsx'
+import MyFriends from './features/friends/MyFriends.tsx'
 import Friends from './features/friends/Friends.tsx'
+import { nanoid } from '@reduxjs/toolkit'
+import HomeNav from './features/friends/HomeNav.tsx'
+import FriendsInvitations from './features/friends/FriendsInvitations.tsx'
 
 
 
@@ -17,24 +21,33 @@ import Friends from './features/friends/Friends.tsx'
 function App() {
 
   return (
-<>
+    <>
       <Header />
       <Routes>
         {/* <Route path='/' element={<Home />} />
         <Route path='/home' element={<Home />} />
         <Route path='/login' element={<Login page={'Login'}/>} />
         <Route path='/register' element={<Registration page={'Registration'}/>} />
-        <Route path='/allgames' element={<Game />} />
-        <Route path='/mygames' element={<MyCollection />} /> */}
-        
-        <Route path='/' element={<Auth><Home /></Auth>} />
-        <Route path='/home' element={<Auth><Friends /></Auth>} />
-        <Route path='/login' element={<Login page={'Login'}/>} />
-        <Route path='/register' element={<Registration page={'Registration'}/>} />
-        <Route path='/allgames' element={<Auth><Game /></Auth>} />
+      <Route path='/mygames' element={<MyCollection />} /> */}
+
+        <Route path='/allgames' element={<Auth key={1234}><Game  key={5456}/></Auth>} />
+
+        {/* <Route path='/allgames' element={<Game />} /> */}
+
+
+        <Route path='/' element={<Auth ><Home  key={nanoid()}/></Auth>} />
+        <Route path='/home' element={<Auth><HomeNav key={nanoid()}/></Auth>} />
+
+        <Route path='/home/myfriends' element={<Auth><MyFriends key={nanoid()}/> </Auth>} />
+        <Route path='/home/myfriends/pending' element={<Auth><MyFriends key={nanoid()} /> </Auth>} />
+        <Route path='/home/myfriends/myinvitation' element={<Auth><FriendsInvitations key={nanoid()} /> </Auth>} />
+        <Route path='/home/searchfriend' element={<Auth><Friends /></Auth>} />
+
+        <Route path='/login' element={<Login page={'Login'} />} />
+        <Route path='/register' element={<Registration page={'Registration'} />} />
         <Route path='/mygames' element={<Auth><MyCollection /></Auth>} />
       </Routes>
-</>
+    </>
 
   )
 }

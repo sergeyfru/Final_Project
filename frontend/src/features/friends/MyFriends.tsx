@@ -7,7 +7,6 @@ import { useEffect } from "react"
 import { useAllMyFrinds, useDeleteFriend } from "./frieds_hooks"
 import { nanoid } from "@reduxjs/toolkit"
 import HomeNav from "./HomeNav"
-import { CheckBox } from "@mui/icons-material"
 
 
 const MyFriends = () => {

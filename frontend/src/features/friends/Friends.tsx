@@ -4,7 +4,7 @@ import {
     // useAddFriend,
     useGetAllUsersWithoutThisUser
 } from "./frieds_hooks"
-import { Button, Stack, TextField } from "@mui/material"
+import {  Stack, TextField } from "@mui/material"
 import { useAppSelector } from "../../app/store"
 import AddFriend from "./AddFriend"
 import { nanoid } from "@reduxjs/toolkit"

@@ -48,7 +48,7 @@ const rejectFriend =(user_id_2:string|number)=>{
                                             <h3>{user.u_email}</h3>
                                         </Stack>
                                         <Stack sx={{ m: 1 ,alignContent:"center", justifyContent:'space-evenly'}}>
-                                           <Button onClick={()=>rejectFriend(user.u_id)} >Delete</Button>
+                                           <Button onClick={()=>rejectFriend(user.u_id)} variant="outlined">Delete</Button>
                                         </Stack>
                                     </Stack>
                                     )

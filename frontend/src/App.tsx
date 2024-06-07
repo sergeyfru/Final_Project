@@ -42,6 +42,7 @@ function App() {
         <Route path='/home/myfriends/pending' element={<Auth><MyFriends key={nanoid()} /> </Auth>} />
         <Route path='/home/myfriends/myinvitation' element={<Auth><FriendsInvitations key={nanoid()} /> </Auth>} />
         <Route path='/home/searchfriend' element={<Auth><Friends /></Auth>} />
+        <Route path='/home/settings' element={<Auth><h1>Page is not ready</h1></Auth>} />
 
         <Route path='/login' element={<Login page={'Login'} />} />
         <Route path='/register' element={<Registration page={'Registration'} />} />

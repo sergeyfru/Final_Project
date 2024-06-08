@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { AddGameSliceType, BoardGame, DelMyGameType, EnumRegisterStatus, FilteringGamesType, GamesInitialState, MyGames, SearchGamesType, } from "../../types/type"
+import { AddGameSliceType, BoardGame, DelMyGameType, EnumRegisterStatus, FilteringGamesType, GamesInitialState, JoinCollection, MyGames, SearchGamesType, } from "../../types/type"
 import axios from "axios";
 
 
@@ -7,8 +7,44 @@ const initialState: GamesInitialState = {
     allGames: [],
     filter: [],
     mygames: [],
+    collectionWithFriends: [],
     status: EnumRegisterStatus.Success,
 }
+
+
+export const joinCollection = createAsyncThunk('games/joincollection',
+    async ({ u_id, user_id_1, user_id_2, user_id_3, user_id_4, user_id_5 }: JoinCollection) => {
+        try {
+            console.log(u_id, user_id_1, user_id_2, user_id_3, user_id_4, user_id_5 );
+            
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/games/friendscollection`,
+                { u_id, user_id_1, user_id_2, user_id_3, user_id_4, user_id_5 },
+                { withCredentials: true }
+            );
+            console.log(response.data);
+            
+            if (response.status !== 200) {
+
+                alert(response.data.msg)
+                return response.data;
+
+            }
+            return response.data;
+
+
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log('Axios error', error.message);
+                console.log('Axios error', error);
+
+            } else {
+                console.error('Unexpected error', error);
+            }
+        }
+    }
+)
+
+
 
 export const getAllGames = createAsyncThunk('games/all',
     async () => {
@@ -34,7 +70,7 @@ export const getAllGames = createAsyncThunk('games/all',
 )
 
 export const delMyGame = createAsyncThunk('games/delmygame',
-    async ({ gameid, u_id }:DelMyGameType) => {
+    async ({ gameid, u_id }: DelMyGameType) => {
         try {
             const afterDel = await axios.post(`${import.meta.env.VITE_API_URL}/games/delmy`,
                 { u_id, gameid },
@@ -42,8 +78,8 @@ export const delMyGame = createAsyncThunk('games/delmygame',
             )
             if (afterDel.status === 200) {
                 alert(afterDel.data.msg)
-            }console.log(afterDel);
-            
+            } console.log(afterDel);
+
             return afterDel.data
         } catch (error) {
 
@@ -183,6 +219,16 @@ export const gamesSlice = createSlice({
     },
     extraReducers(builder) {
         builder
+            .addCase(joinCollection.pending, (state,) => {
+                state.status = EnumRegisterStatus.Loading
+            })
+            .addCase(joinCollection.rejected, (state,) => {
+                state.status = EnumRegisterStatus.Failed
+            })
+            .addCase(joinCollection.fulfilled, (state, action) => {
+                state.status = EnumRegisterStatus.Success
+                state.collectionWithFriends = action.payload
+            })
             .addCase(getAllGames.pending, (state,) => {
                 state.status = EnumRegisterStatus.Loading
             })
@@ -232,7 +278,7 @@ export const {
     searchGames,
     filteringGames,
     randomGame,
-    
+
 } = gamesSlice.actions
 
 

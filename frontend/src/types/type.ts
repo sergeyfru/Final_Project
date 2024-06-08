@@ -29,15 +29,15 @@ export type InitialState = {
     u_token: string | null | undefined,
     refreshToken: string | null | undefined,
     status?: EnumRegisterStatus,
-    isisLogedIn:EnumLoginStatus
+    isisLogedIn: EnumLoginStatus
 }
 export type FriendUser = {
-    u_id: string|number ,
+    u_id: string | number,
     u_email: string,
     u_firstname: string,
     u_lastname: string,
     agreement: boolean,
-    sent:boolean
+    sent: boolean
 }
 export type InitialStateFriends = {
     allUsers: User[],
@@ -49,6 +49,7 @@ export type GamesInitialState = {
     allGames: BoardGame[],
     filter: BoardGame[],
     mygames: BoardGame[],
+    collectionWithFriends: BoardGame[]
     status?: EnumRegisterStatus,
     randomGame?: BoardGame
 }
@@ -180,4 +181,13 @@ export type AddFriend = {
 export type AddFriendProps = {
     user_id_2: string | number | null | undefined
 
+}
+
+export type JoinCollection = {
+    u_id: string | number|null,
+    user_id_1: string | number | null,
+    user_id_2: string | number | null,
+    user_id_3: string | number | null,
+    user_id_4: string | number | null,
+    user_id_5: string | number | null,
 }

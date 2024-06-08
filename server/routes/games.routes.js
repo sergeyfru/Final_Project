@@ -1,4 +1,4 @@
-import { _addToMyList, _myGames, _allGames, _fetchGames, _delMyGame ,_updateFetchGames} from "../controller/games.controllers.js";
+import { _addToMyList, _myGames, _allGames, _fetchGames, _delMyGame ,_updateFetchGames, _myFriendsCollection} from "../controller/games.controllers.js";
 import { verifyToken } from "../middlewares/verifyTaken.js";
 
 import express from 'express'
@@ -8,6 +8,7 @@ route.post('/addgame',  _addToMyList)
 route.post('/mygames',  _myGames)
 route.get('/all',  _allGames)
 route.post('/delmy',  _delMyGame)
+route.post('/friendscollection',  _myFriendsCollection)
 
 route.post('/stealgames', _fetchGames)
 route.put('/stealgames', _updateFetchGames)

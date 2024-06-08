@@ -7,11 +7,13 @@ import { useEffect } from "react"
 import { useAllMyFrinds, useDeleteFriend } from "./frieds_hooks"
 import { nanoid } from "@reduxjs/toolkit"
 import HomeNav from "./HomeNav"
+import { useNavigate } from "react-router-dom"
 
 
 const MyFriends = () => {
     const allMyFrinds = useAllMyFrinds()
     const delFriend = useDeleteFriend()
+    const navigate = useNavigate()
     const user_id_1 = localStorage.getItem('u_id')
     // const u_id = localStorage.getItem('u_id')
     const myFriends: FriendUser[] = useAppSelector(state => state.friendsReducer.myFriends)
@@ -30,10 +32,15 @@ const MyFriends = () => {
 const rejectFriend =(user_id_2:string|number)=>{
    delFriend({user_id_2,user_id_1})
 } 
+
+const createList =()=>{
+navigate('/home/joincollection')
+}
     return (
         <>
             <HomeNav />
-            <h2>My Friends: {myFriends.filter(user => user.agreement === true).length}</h2>
+            <h2>My Friends: {myFriends.filter(user => user.agreement === true).length}</h2> 
+            <Button onClick={createList}>Create collection with friends</Button>
             {
                 status === EnumLoadingStatus.Loading ? <FontAwesomeIcon icon={faSpinner} spinPulse style={{ fontSize: "64px" }} /> :
                     status === EnumLoadingStatus.Failed ? <h1>Fail in loading</h1> :

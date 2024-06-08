@@ -1,4 +1,4 @@
-import { myGames, allGames, addToMyList, fetchGames, delMyGame,updateFetchGames } from "../models/games.models.js";
+import { myGames, allGames, addToMyList, fetchGames, delMyGame, updateFetchGames, myFriendsCollection } from "../models/games.models.js";
 
 
 
@@ -77,6 +77,26 @@ export const _delMyGame = async (req, res) => {
 
     } catch (error) {
         console.log('Games controllers   _delMyGame =>', error);
+        res.status(404).json({ msg: 'Games not found or Something went wrong.' })
+
+    }
+}
+
+
+
+export const _myFriendsCollection = async (req, res) => {
+    const { u_id, user_id_1, user_id_2, user_id_3, user_id_4, user_id_5 } = req.body
+    try {
+
+        const fullCollection = await myFriendsCollection({ u_id, user_id_1, user_id_2, user_id_3, user_id_4, user_id_5 })
+
+        if (!fullCollection) {
+            res.status(404).json({ msg: 'Friends Collections not found' })
+        }
+        res.json(fullCollection)
+
+    } catch (error) {
+        console.log('Games controllers   _myFriendsCollection =>', error);
         res.status(404).json({ msg: 'Games not found or Something went wrong.' })
 
     }

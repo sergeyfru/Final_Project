@@ -15,7 +15,7 @@ export const addToMyList = async ({ u_id, gameid }) => {
             .select('user_game.gameid', 'games.name')
             .join('games', 'games.gameid', '=', 'user_game.gameid')
             .where({ u_id })
- 
+
         await trx.commit()
         return mygames
 
@@ -56,12 +56,12 @@ export const allGames = async () => {
     }
 }
 
-export const updateFetchGames = async(game)=>{
+export const updateFetchGames = async (game) => {
     const {
         gameid, name, image, thumbnail, minplayers, maxplayers, minplaytime,
         maxplaytime, playingtime, yearpublished, wanttoplay, averagerating, description, boardgamecategory
     } = game
-    
+
     try {
         const [gameInMyDB] = await db('games').update({
             gameid, name, image, thumbnail, minplayers, maxplayers, minplaytime,
@@ -71,7 +71,7 @@ export const updateFetchGames = async(game)=>{
             'maxplaytime', 'averagerating',
             'playingtime', 'yearpublished', 'wanttoplay', 'description', 'boardgamecategory'
         ])
-        .where({gameid})
+            .where({ gameid })
         // console.log(gameInMyDB);
         return gameInMyDB
 
@@ -101,7 +101,7 @@ export const fetchGames = async (game) => {
             minplaytime, maxplaytime,
             playingtime: playingTime, yearpublished: yearPublished, wanttoplay: wantToPlay,
             averagerating: averageRating,
-             description, boardgamecategory
+            description, boardgamecategory
         }, [
             'gameid', 'name', 'image', 'thumbnail', 'minplayers', 'maxplayers', 'minplaytime',
             'maxplaytime', 'averagerating',
@@ -137,4 +137,119 @@ export const delMyGame = async ({ u_id, gameid }) => {
         throw new Error('delMyGame failed =>Error in Game models delMyGame')
 
     }
+}
+
+export const myFriendsCollection = async ({ u_id, user_id_1, user_id_2, user_id_3, user_id_4, user_id_5 }) => {
+    const trx = await db.transaction()
+    try {
+
+
+        const myCollection = await trx('user_game')
+            .select('user_game.u_id', 'user_game.gameid', 'games.name', 'games.averagerating','games.minplaytime', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .join('games', 'games.gameid', '=', 'user_game.gameid')
+            .where({ u_id })
+        console.log('collection with 1 user', myCollection);
+        const combinedCollection = [...myCollection]
+
+
+        const collection1 = await trx('user_game')
+            .select('user_game.u_id', 'user_game.gameid', 'games.name', 'games.averagerating','games.minplaytime', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .join('games', 'games.gameid', '=', 'user_game.gameid')
+            .where({ u_id: user_id_1 })
+
+        collection1.forEach(item => {
+            if (!combinedCollection.some(game => game.gameid === item.gameid)) {
+                combinedCollection.push(item)
+            }
+        });
+        if (!user_id_2) {
+            console.log('You dont have user_id_2 ');
+            await trx.commit()
+            return combinedCollection
+        }
+
+        const collection2 = await trx('user_game')
+            .select('user_game.u_id', 'user_game.gameid', 'games.name', 'games.averagerating','games.minplaytime', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .join('games', 'games.gameid', '=', 'user_game.gameid')
+            .where({ u_id: user_id_2 })
+
+        collection2.forEach(item => {
+            if (!combinedCollection.some(game => game.gameid === item.gameid)) {
+                combinedCollection.push(item)
+            }
+        });
+
+        console.log('collection with 2 users', combinedCollection);
+
+        if (!user_id_3) {
+            console.log('You dont have user_id_3 ');
+            await trx.commit()
+            return combinedCollection
+        }
+
+
+        const collection3 = await trx('user_game')
+            .select('user_game.u_id', 'user_game.gameid', 'games.name', 'games.averagerating','games.minplaytime', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .join('games', 'games.gameid', '=', 'user_game.gameid')
+            .where({ u_id: user_id_3 })
+
+        collection3.forEach(item => {
+            if (!combinedCollection.some(game => game.gameid === item.gameid)) {
+                combinedCollection.push(item)
+            }
+        });
+        console.log('collection with 3 users', combinedCollection);
+
+
+        if (!user_id_4) {
+            console.log('You dont have user_id_4 ');
+            await trx.commit()
+            return combinedCollection
+        }
+
+        const collection4 = await trx('user_game')
+            .select('user_game.u_id', 'user_game.gameid', 'games.name', 'games.averagerating','games.minplaytime', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .join('games', 'games.gameid', '=', 'user_game.gameid')
+            .where({ u_id: user_id_4 })
+
+        collection4.forEach(item => {
+            if (!combinedCollection.some(game => game.gameid === item.gameid)) {
+                combinedCollection.push(item)
+            }
+        });
+        console.log('collection with 4 users', combinedCollection);
+
+        if (!user_id_5) {
+            console.log('You dont have user_id_5 ');
+            await trx.commit()
+            return combinedCollection
+        }
+
+
+
+        const collection5 = await trx('user_game')
+            .select('user_game.u_id', 'user_game.gameid', 'games.name', 'games.averagerating','games.minplaytime', 'games.thumbnail', 'games.minplayers', 'games.maxplayers', 'games.maxplaytime', 'games.description', 'games.boardgamecategory')
+            .join('games', 'games.gameid', '=', 'user_game.gameid')
+            .where({ u_id: user_id_5 })
+
+        collection5.forEach(item => {
+            if (!combinedCollection.some(game => game.gameid === item.gameid)) {
+                combinedCollection.push(item)
+            }
+        });
+
+        console.log('collection with 5 users', combinedCollection);
+
+        await trx.commit()
+        return combinedCollection
+
+    } catch (error) {
+
+        await trx.rollback()
+        console.log('Error in Game models myFriendsCollection =>', error);
+        throw new Error('myFriendsCollection failed =>Error in Game models myFriendsCollection')
+
+    }
+
+
 }

@@ -37,7 +37,7 @@ const MyCollection = () => {
                                 return (
                                     <div key={game.gameid}>
                                         <h2>{game.name}</h2>
-                                        <h3>{game.description}</h3>
+                                        {/* <h3>{game.description}</h3> */}
                                         <img src={game.thumbnail} alt="" />
                                         <DelMyGame gameid={game.gameid} />
                                     </div>

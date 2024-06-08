@@ -1,11 +1,13 @@
 
-import { ChangeEvent, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useAppSelector } from "../../app/store";
-import { User } from "../../types/type";
-import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
+import { EnumRegisterStatus, User } from "../../types/type";
+import { Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
 import SelectFormCollectionWithFriends from "./SelectFormCollectionWithFriends";
 import { useJoinCollection } from "../games/game_hook";
 import { useAllMyFrinds } from "./frieds_hooks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -129,6 +131,11 @@ const CollectionWithFriends = () => {
             </FormControl>
 
             <Button onClick={createCollection}>Create collection</Button>
+
+            {
+                status === EnumRegisterStatus.Loading ? <div><h2>Loading:</h2><FontAwesomeIcon icon={faSpinner} spinPulse style={{ fontSize: "64px" }} /></div> :
+
+           <>
             {
                 collectionWithFriends.length > 0 ? <><h2>Your join Collection: {collectionWithFriends.length}</h2></> : <></>
             }
@@ -156,6 +163,8 @@ const CollectionWithFriends = () => {
                     })
                 }
             </Stack>
+            </>
+             }
         </>
 
     )

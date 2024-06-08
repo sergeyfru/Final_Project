@@ -49,6 +49,8 @@ export const login = createAsyncThunk('user/login',
                 localStorage.setItem('refresh', response.data.refreshToken);
                 localStorage.setItem('firstname', response.data.user.u_firstname);
                 localStorage.setItem('lastname', response.data.user.u_lastname);
+                localStorage.setItem('isLogedIn', 'isLogedIn');
+
                 return response.data
             }
             console.log('user_slice res.data=>', response.data);

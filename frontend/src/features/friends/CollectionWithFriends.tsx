@@ -56,6 +56,11 @@ const CollectionWithFriends = () => {
 
     const createCollection = async () => {
         await joinCollection({ u_id, user_id_1, user_id_2, user_id_3, user_id_4, user_id_5 })
+        setUser_id_1('')
+        setUser_id_2('')
+        setUser_id_3('')
+        setUser_id_4('')
+        setUser_id_5('')
     }
 
     return (

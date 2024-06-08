@@ -9,10 +9,10 @@ const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY } = process.env
 
 
 export const verifyToken = (req, res, next) => {
-
+console.log(req.cookies);
     const accessToken = req.cookies['u_token'] || req.headers['x-access-token']
     const refreshToken = req.cookies['refreshToken'] || req.headers['x-refresh-token']
-    console.log("Im in verify");
+    console.log("Im in verify",accessToken,refreshToken);
     if (!accessToken) {
 
 

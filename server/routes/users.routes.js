@@ -19,6 +19,7 @@ router.get('/verify', verifyToken, (req, res) => {
 
 
 router.get('/logout', (req, res) => {
+    console.log(req.cookies['u_token']);
     try {
         console.log(req.cookies);
         res.clearCookie("u_token",{path:"/"});

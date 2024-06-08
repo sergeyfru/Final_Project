@@ -9,7 +9,7 @@ const Header = () => {
     const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
-    const isLogedIn = useAppSelector(state => state.userReducer.isisLogedIn)
+    const isLogedIn = localStorage.getItem('isLogedIn')||useAppSelector(state => state.userReducer.isisLogedIn)
     const logoutfunc = async () => {
         localStorage.clear()
         const response = await dispatch(logOut())
@@ -21,7 +21,9 @@ const Header = () => {
         // Assuming the response has the structure: res.payload?.response.data.msg
         console.log(res);
 
-        if (res.payload?.u_token) {
+        if (res.payload.status === 200) {
+            localStorage.clear()
+
             console.log('logOut => status 200');
             navigate('/login')
         } else {
@@ -40,7 +42,7 @@ const Header = () => {
                 My games
             </Button>
             {
-                isLogedIn === EnumLoginStatus.Logout ?
+                isLogedIn !== 'isLogedIn' ?
                     <>
                         <Button component={Link} to='/login'>
                             Log in

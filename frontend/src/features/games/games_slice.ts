@@ -183,7 +183,7 @@ export const gamesSlice = createSlice({
 
             if (inputSearch && inputSearch !== '') {
                 state.filter = state.filter.filter(game => {
-                    return game.name.toLowerCase().includes(`${inputSearch}`)
+                    return game.name.toLowerCase().includes(`${inputSearch.toString().toLowerCase()}`)
                 })
 
             }
@@ -205,12 +205,12 @@ export const gamesSlice = createSlice({
             if (inputminPlayerNumber && inputminPlayerNumber !== '') {
                 console.log('inputminPlayerNumber', typeof inputminPlayerNumber, inputminPlayerNumber);
 
-                state.filter = state.filter.filter(game => game.minplayers >= parseInt(inputminPlayerNumber))
+                state.filter = state.filter.filter(game => game.minplayers <= parseInt(inputminPlayerNumber))
             }
             if (inputmaxPlayerNumber && inputmaxPlayerNumber !== '') {
                 console.log('inputmaxPlayerNumber', typeof inputmaxPlayerNumber, inputmaxPlayerNumber);
 
-                state.filter = state.filter.filter(game => game.maxplayers <= parseInt(inputmaxPlayerNumber))
+                state.filter = state.filter.filter(game => game.maxplayers >= parseInt(inputmaxPlayerNumber))
             }
 
             console.log(state.filter);

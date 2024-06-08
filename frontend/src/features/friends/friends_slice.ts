@@ -168,7 +168,7 @@ export const friendsSlice = createSlice({
         searchUser: (state, action) => {
             state.filteredUsers = state.allUsers.filter(user => {
                 const fullName = `${user.u_firstname} ${user.u_lastname}`
-                if (fullName.toLowerCase().includes(`${action.payload}`)) {
+                if (fullName.toLowerCase().includes(`${action.payload.toLowerCase()}`)) {
                     return user
                 }
             })

@@ -14,6 +14,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import HomeNav from './features/friends/HomeNav.tsx'
 import FriendsInvitations from './features/friends/FriendsInvitations.tsx'
 import CollectionWithFriends from './features/friends/CollectionWithFriends.tsx'
+import MySettings from './features/users/MySettings.tsx'
 
 
 
@@ -36,14 +37,14 @@ function App() {
         {/* <Route path='/allgames' element={<Game />} /> */}
 
 
-        <Route path='/' element={<Auth ><Home  key={nanoid()}/></Auth>} />
+        <Route path='/' element={<Auth key={123} ><Home  key={nanoid()}/></Auth>} />
         <Route path='/home' element={<Auth><HomeNav key={nanoid()}/></Auth>} />
 
         <Route path='/home/myfriends' element={<Auth><MyFriends key={nanoid()}/> </Auth>} />
         <Route path='/home/myfriends/pending' element={<Auth><MyFriends key={nanoid()} /> </Auth>} />
         <Route path='/home/myfriends/myinvitation' element={<Auth><FriendsInvitations key={nanoid()} /> </Auth>} />
         <Route path='/home/searchfriend' element={<Auth><Friends /></Auth>} />
-        <Route path='/home/settings' element={<Auth><h1>Page is not ready</h1></Auth>} />
+        <Route path='/home/settings' element={<Auth><MySettings /></Auth>} />
         <Route path='/home/joincollection' element={<Auth><CollectionWithFriends/></Auth>} />
 
         <Route path='/login' element={<Login page={'Login'} />} />

@@ -164,12 +164,7 @@ export const gamesSlice = createSlice({
             state.filter = searchGames
         },
 
-        randomGame: (state, action) => {
-
-            state.randomGame = state.mygames[action.payload.randindex]
-        },
-
-
+    
 
         filteringGames: (state, action: PayloadAction<FilteringGamesType>) => {
             const inputSearch = action.payload.inputSearch
@@ -277,7 +272,6 @@ export const gamesSlice = createSlice({
 export const {
     searchGames,
     filteringGames,
-    randomGame,
 
 } = gamesSlice.actions
 

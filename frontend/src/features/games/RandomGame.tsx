@@ -1,47 +1,37 @@
 import { Button, Stack } from "@mui/material"
 import { useState } from "react"
 import { useAppSelector } from "../../app/store"
-import { useRandomGame } from "./game_hook"
+import { BoardGame } from "../../types/type"
 
 
 const RandomGame = () => {
-    const [display, setDisplay] = useState(false)
+    const [display, setMyDisplay] = useState<boolean>(false)
+    const [randomGame,setRandomGame] =useState<BoardGame>()
     const collection = useAppSelector(state => state.gamesReducer.mygames)
-    const randGame = useAppSelector(state => state.gamesReducer?.randomGame)
-    const randomGame = useRandomGame()
 
-    const selectionGame = () => {
-        let gameIndex = -1
+        const selectionGame = () => {
 
-        if (randGame) {
-            gameIndex = collection.findIndex(game => game.gameid === randGame.gameid)
+            let randIndex = Math.floor(Math.random() * collection.length)
+            setRandomGame(collection[randIndex])
+            setMyDisplay(true)
+            console.log('hi', display);
+            console.log(randomGame);
+    
+    
         }
-        while (true) {
-            const randindex = Math.floor(Math.random() * collection.length)
-console.log('in while');
-
-            if (randindex !== gameIndex) {
-                randomGame({ randindex })
-                break
-            }
-        }
-        setDisplay(true)
-
-    }
     return (
         <>
             <Button variant="contained" sx={{ m: 1 }} onClick={selectionGame}>Random Game</Button>
             {
-                display ?
+                display &&(
                     <Stack className="randomGame">
-                        <Button variant="contained" sx={{ m: 1 }} onClick={() => setDisplay(false)}>X</Button>
-                        <h2>Your game is <br /> {randGame?.name}</h2>
-                        <img src={randGame?.thumbnail} alt="" style={{ height: '200px' }} />
+                        <Button variant="contained" sx={{ m: 1 }} onClick={() => setMyDisplay(false)}>X</Button>
+                        <h2>Your game is <br /> {randomGame?.name}</h2>
+                        <img src={randomGame?.thumbnail} alt="" style={{ height: '200px' }} />
 
                         <Button variant="contained" sx={{ m: 1 }} onClick={selectionGame}>next</Button>
-                    </Stack>
-                    : <></>
-            }
+                    </Stack> 
+            )}
 
         </>
 

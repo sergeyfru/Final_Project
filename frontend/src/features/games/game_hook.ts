@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { useAppDispatch } from "../../app/store"
-import { delMyGame, getAllGames ,joinCollection,myGames, randomGame} from "./games_slice"
-import {  DelMyGameType, JoinCollection, MyGames, RandomGame } from "../../types/type"
+import { delMyGame, getAllGames ,joinCollection,myGames,} from "./games_slice"
+import {  DelMyGameType, JoinCollection, MyGames,  } from "../../types/type"
 
 
 export const useGetAllGames = () => {
@@ -21,12 +21,7 @@ export const useGetMyGames = () => {
     }, [dispatch])
 }
 
-export const useRandomGame = ()=>{
-    const dispatch = useAppDispatch()
-    return useCallback(({randindex}:RandomGame)=>{
-        dispatch(randomGame({randindex}))
-    },[dispatch])
-}
+
 export const useDelMyGame = ()=>{
     const dispatch = useAppDispatch()
     return useCallback(({ gameid, u_id }:DelMyGameType)=>{

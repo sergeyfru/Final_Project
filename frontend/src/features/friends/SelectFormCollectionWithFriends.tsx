@@ -1,7 +1,6 @@
 import { useAppSelector } from "../../app/store"
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, } from "@mui/material";
 
-
 export type SelectFormCollectionWithFriends = {
     check_1: string,
     check_2: string,
@@ -15,6 +14,7 @@ export type SelectFormCollectionWithFriends = {
 
 
 }
+
 
 const SelectFormCollectionWithFriends = ({check_1, check_2, check_3, check_4, setState,next,previous,present}:SelectFormCollectionWithFriends) => {
 const myFriends = useAppSelector(state =>state.friendsReducer.myFriends.filter(user => user.agreement===true))

@@ -1,8 +1,8 @@
 
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/store";
-import { EnumRegisterStatus, User } from "../../types/type";
-import { Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
+import { BoardGame, EnumRegisterStatus, User } from "../../types/type";
+import { Button, FormControl,  InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
 import SelectFormCollectionWithFriends from "./SelectFormCollectionWithFriends";
 import { useJoinCollection } from "../games/game_hook";
 import { useAllMyFrinds } from "./frieds_hooks";
@@ -16,6 +16,8 @@ const CollectionWithFriends = () => {
     const collectionWithFriends = useAppSelector(state => state.gamesReducer.collectionWithFriends)
     const status = useAppSelector(state => state.gamesReducer.status)
     const u_id = localStorage.getItem('u_id')
+    const [display, setDisplay] = useState(false)
+    const [randomGame, setRandomGame] = useState<BoardGame>()
     const [user_id_1, setUser_id_1] = useState<string>('')
     const [user_id_2, setUser_id_2] = useState<string>('')
     const [user_id_3, setUser_id_3] = useState<string>('')
@@ -62,9 +64,20 @@ const CollectionWithFriends = () => {
         setUser_id_4('')
         setUser_id_5('')
     }
+    const randomGameFunc = () => {
+
+        let randIndex = Math.floor(Math.random() * collectionWithFriends.length)
+        setRandomGame(collectionWithFriends[randIndex])
+        setDisplay(true)
+        console.log('hi', display);
+        console.log(randomGame);
+
+
+    }
 
     return (
         <>
+        <div  style={{display:"flex", justifyContent:'center', alignItems:'center'}}>
             <FormControl required sx={{ m: 1, minWidth: 140 }}>
                 <InputLabel id="demo-simple-select-required-label">First Friend</InputLabel>
                 <Select
@@ -88,7 +101,6 @@ const CollectionWithFriends = () => {
 
 
                 </Select>
-                <FormHelperText>Required</FormHelperText>
             </FormControl>
 
 
@@ -135,41 +147,58 @@ const CollectionWithFriends = () => {
                 </Select>
             </FormControl>
 
-            <Button onClick={createCollection}>Create collection</Button>
+            <Button onClick={createCollection} variant="contained" style={{alignItems:"center"}}>Create collection</Button>
+            </div>
+            {
+                display && (
+
+                    <Stack className="randomGame">
+                        <Button variant="contained" sx={{ m: 1 }} onClick={() => setDisplay(false)}>X</Button>
+                        <h2>Your game is <br /> {randomGame?.name}</h2>
+                        <img src={randomGame?.thumbnail} alt="" style={{ height: '200px' }} />
+
+                        {/* <Button variant="contained" sx={{ m: 1 }} onClick={selectionGame}>next</Button> */}
+                    </Stack>
+                )
+            }
 
             {
                 status === EnumRegisterStatus.Loading ? <div><h2>Loading:</h2><FontAwesomeIcon icon={faSpinner} spinPulse style={{ fontSize: "64px" }} /></div> :
 
-           <>
-            {
-                collectionWithFriends.length > 0 ? <><h2>Your join Collection: {collectionWithFriends.length}</h2></> : <></>
+                    <>
+                        {
+                            collectionWithFriends.length > 0 ?
+                                <div style={{display:"flex", justifyContent:'center', alignItems:'center'}}>
+                                    <h2 style={{ display: "inline-block" }}>Your join Collection: {collectionWithFriends.length}</h2>
+                                    <Button style={{ marginLeft: '20px' }} onClick={randomGameFunc}>Random Game</Button>
+                                </div> : <></>
+                        }
+                        <Stack flexDirection={'row'} sx={{ m: 4 }} flexWrap={'wrap'}>
+
+
+                            {
+                                collectionWithFriends.map(item => {
+                                    return (
+                                        <div key={item.gameid} style={{ display: "flex", border: '1px solid black', margin: '4px', width: 'calc(50% - 26px)', textAlign: 'center', padding: "0 8px" }}>
+                                            <div style={{ marginRight: 'auto' }}>
+                                                <h2>{item.name}</h2>
+                                                <img src={item.thumbnail} alt="" />
+
+                                                {/* <p style={{maxWidth:'300px'}}>{item.description}</p> */}
+                                            </div>
+                                            <div style={{ marginLeft: 'auto', textAlign: 'start' }}>
+                                                <h4><span style={{ marginRight: '65px' }}>Rating: </span> <span style={{ marginLeft: '70px', marginRight: '20px' }}>{item.averagerating}</span></h4>
+                                                <h4><span style={{ marginRight: '30px' }}>Number of players: </span> <span style={{ marginLeft: '30px', marginRight: '20px' }}>{item.minplayers} - {item.maxplayers}</span></h4>
+                                                <h4><span style={{ marginRight: '50px' }}>Time for play: </span><span style={{ marginLeft: '30px', marginRight: '20px' }}>{item.minplaytime} - {item.maxplaytime}</span></h4>
+                                                <h4><span style={{ marginRight: '30px' }}> Category:</span> <span style={{ marginLeft: '30px', marginRight: '20px' }}>{item.boardgamecategory}</span> </h4>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Stack>
+                    </>
             }
-            <Stack flexDirection={'row'} sx={{ m: 4 }} flexWrap={'wrap'}>
-
-
-                {
-                    collectionWithFriends.map(item => {
-                        return (
-                            <div key={item.gameid} style={{ display: "flex", border: '1px solid black', margin: '4px', width: 'calc(50% - 26px)', textAlign: 'center', padding:"0 8px" }}>
-                                <div style={{ marginRight: 'auto' }}>
-                                    <h2>{item.name}</h2>
-                                    <img src={item.thumbnail} alt="" />
-
-                                    {/* <p style={{maxWidth:'300px'}}>{item.description}</p> */}
-                                </div>
-                                <div style={{ marginLeft: 'auto', textAlign: 'start' }}>
-                                    <h4><span style={{ marginRight: '65px' }}>Rating: </span> <span style={{ marginLeft: '70px', marginRight: '20px' }}>{item.averagerating}</span></h4>
-                                    <h4><span style={{ marginRight: '30px' }}>Number of players: </span> <span style={{ marginLeft: '30px', marginRight: '20px' }}>{item.minplayers} - {item.maxplayers}</span></h4>
-                                    <h4><span style={{ marginRight: '50px' }}>Time for play: </span><span style={{ marginLeft: '30px', marginRight: '20px' }}>{item.minplaytime} - {item.maxplaytime}</span></h4>
-                                    <h4><span style={{ marginRight: '30px' }}> Category:</span> <span style={{ marginLeft: '30px', marginRight: '20px' }}>{item.boardgamecategory}</span> </h4>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-            </Stack>
-            </>
-             }
         </>
 
     )

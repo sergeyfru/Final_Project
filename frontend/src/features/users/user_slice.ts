@@ -80,7 +80,9 @@ export const logOut = createAsyncThunk('users/logout',
 
         try {
 
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/logout`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/logout`,
+                {withCredentials:true}
+            );
 
             return response;
 

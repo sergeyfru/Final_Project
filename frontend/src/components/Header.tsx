@@ -1,7 +1,7 @@
 
 import { Link, useNavigate, } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
-import { useAppDispatch, useAppSelector, } from "../app/store";
+import { useAppDispatch,  } from "../app/store";
 import { logOut } from "../features/users/user_slice";
 // import { EnumLoginStatus } from "../types/type";
 
@@ -9,7 +9,7 @@ const Header = () => {
     const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
-    const isLogedIn = localStorage.getItem('isLogedIn')||useAppSelector(state => state.userReducer.isisLogedIn)
+    const isLogedIn = localStorage.getItem('isLogedIn')
     const logoutfunc = async () => {
         localStorage.clear()
         const response = await dispatch(logOut())

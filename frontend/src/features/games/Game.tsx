@@ -13,6 +13,7 @@ import SearchGame from '../selectors/SearchGame.tsx'
 
 
 const Game = () => {
+    const myCollection = useAppSelector(state => state.gamesReducer.mygames)
     const dispatch = useAppDispatch()
     const GetAllGames = useGetAllGames()
     const allgames = useAppSelector(state => state.gamesReducer.allGames)
@@ -96,7 +97,7 @@ const Game = () => {
                                 filter.map((item,) => {
                                     // return <h2 key={i}>{item.u_id}</h2>
                                     return (
-                                        <div key={item.gameid} style={{ display: "flex", border: '1px solid black', margin: '4px', width: 'calc(50% - 10px)', textAlign: 'center' }}>
+                                        <div key={item.gameid} className='showGame'>
                                             <div style={{ marginRight: 'auto' }}>
                                                 <h2>{item.name}</h2>
                                                 <img src={item.thumbnail} alt="" />
@@ -107,7 +108,10 @@ const Game = () => {
                                                 <h4><span style={{ marginRight:'30px'}}>Number of players: </span> <span style={{marginLeft:'30px', marginRight:'20px'}}>{item.minplayers} - {item.maxplayers}</span></h4>
                                                 <h4><span style={{ marginRight:'50px'}}>Time for play: </span><span style={{marginLeft:'30px', marginRight:'20px'}}>{item.minplaytime} - {item.maxplaytime}</span></h4>
                                                 <h4><span style={{ marginRight:'30px'}}> Category:</span> <span style={{marginLeft:'30px', marginRight:'20px'}}>{item.boardgamecategory}</span> </h4>
-                                                <button onClick={() => addGame(item)}>Add to my collection</button>
+                                                {
+                                                    myCollection.some(game=>game.gameid ===item.gameid)? <button style={{color:'white', backgroundColor:'#aaa'}}>Already in your collection</button>:
+                                                    <button onClick={() => addGame(item)}>Add to my collection</button> 
+                                                }
                                             </div>
 
                                         </div>

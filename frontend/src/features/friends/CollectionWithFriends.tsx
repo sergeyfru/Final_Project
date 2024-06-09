@@ -179,7 +179,7 @@ const CollectionWithFriends = () => {
                             {
                                 collectionWithFriends.map(item => {
                                     return (
-                                        <div key={item.gameid} style={{ display: "flex", border: '1px solid black', margin: '4px', width: 'calc(50% - 26px)', textAlign: 'center', padding: "0 8px" }}>
+                                        <div key={item.gameid} className="showMyGames">
                                             <div style={{ marginRight: 'auto' }}>
                                                 <h2>{item.name}</h2>
                                                 <img src={item.thumbnail} alt="" />

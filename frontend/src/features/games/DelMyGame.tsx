@@ -37,7 +37,7 @@ const DelMyGame = ({ gameid, }: DelMyGameProps) => {
 
     return (
         <>
-            <Button onClick={delGame}>Delete</Button>
+            <Button variant="outlined" onClick={delGame}>Delete</Button>
         </>
     )
 }

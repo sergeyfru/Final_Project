@@ -1,5 +1,5 @@
-import React, { useEffect,  } from "react"
-import {  EnumRegisterStatus } from "../../types/type"
+import React, { useEffect, } from "react"
+import { EnumRegisterStatus } from "../../types/type"
 
 import DelMyGame from "./DelMyGame.tsx"
 import RandomGame from "./RandomGame.tsx"
@@ -16,7 +16,7 @@ const MyCollection = () => {
     const u_id = localStorage.getItem('u_id')
 
     const myGames = async () => {
-        getMyGames({u_id})
+        getMyGames({ u_id })
 
     }
 
@@ -31,20 +31,22 @@ const MyCollection = () => {
                 gameStore.status === EnumRegisterStatus.Loading ? <FontAwesomeIcon icon={faSpinner} spinPulse style={{ fontSize: "64px" }} /> :
 
                     <>
-                        <RandomGame  />
-                        {
-                            collection.map(game => {
-                                return (
-                                    <div key={game.gameid}>
-                                        <h2>{game.name}</h2>
-                                        {/* <h3>{game.description}</h3> */}
-                                        <img src={game.thumbnail} alt="" />
-                                        <DelMyGame gameid={game.gameid} />
-                                    </div>
-                                )
-                            })
+                        <RandomGame />
+                        <div className="myCollection">
+                            {
+                                collection.map(game => {
+                                    return (
+                                        <div key={game.gameid} className="showMyGames">
+                                            <h2>{game.name}</h2>
+                                            {/* <h3>{game.description}</h3> */}
+                                            <img src={game.thumbnail} alt="" />
+                                            <DelMyGame gameid={game.gameid} />
+                                        </div>
+                                    )
+                                })
 
-                        }
+                            }
+                        </div>
                     </>
             }
         </>

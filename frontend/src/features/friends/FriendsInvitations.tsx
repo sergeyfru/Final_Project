@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useAppSelector } from "../../app/store"
 import { useAllMyFrinds, useConfirmFriendship, useDeleteFriend } from "./frieds_hooks"
 import { nanoid } from "@reduxjs/toolkit"
-import HomeNav from "./HomeNav"
+import HomeNav from "./FriendsNav"
 
 
 const FriendsInvitations = () => {

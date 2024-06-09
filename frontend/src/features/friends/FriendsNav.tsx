@@ -5,23 +5,24 @@ import { Link } from "react-router-dom"
 const HomeNav =()=>{
     const firstname = localStorage.getItem('firstname')
     const lastname = localStorage.getItem('lastname')
+    
 
     return(
         <>
          <h2>Welcome, {firstname} {lastname}</h2>
         <Stack spacing={2} direction={'row'}>
             <Button component={Link} to='/home/myfriends'>
-                My friends
+                friends
             </Button>
             <Button component={Link} to='/home/myfriends/myinvitation'>
-            My invitations
+            invitations
             </Button>
             <Button component={Link} to='/home/searchfriend'>
-                Find friend
+                Search friend
             </Button>
-            <Button component={Link} to='/home/settings'>
+            {/* <Button component={Link} to='/home/settings'>
                 Settings
-            </Button>
+            </Button> */}
         </Stack>
         </>
     )

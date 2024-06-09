@@ -1,4 +1,4 @@
-import HomeNav from "../friends/HomeNav"
+import HomeNav from "../friends/FriendsNav"
 
 const MySettings =()=>{
 

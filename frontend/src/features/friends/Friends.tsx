@@ -8,7 +8,7 @@ import {  Stack, TextField } from "@mui/material"
 import { useAppSelector } from "../../app/store"
 import AddFriend from "./AddFriend"
 import { nanoid } from "@reduxjs/toolkit"
-import HomeNav from "./HomeNav"
+import HomeNav from "./FriendsNav"
 
 
 const Friends = () => {

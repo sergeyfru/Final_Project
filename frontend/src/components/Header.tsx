@@ -31,9 +31,10 @@ const Header = () => {
         }
     };
     return (
+        <div className="header">
         <Stack spacing={2} direction={'row'}>
             <Button component={Link} to='/home'>
-                Home
+                Friends
             </Button>
             <Button component={Link} to='/allgames'>
                 All games
@@ -56,6 +57,7 @@ const Header = () => {
             }
 
         </Stack>
+        </div>
     );
 };
 

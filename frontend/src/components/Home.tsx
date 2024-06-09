@@ -1,5 +1,5 @@
 import React from "react"
-import HomeNav from "../features/friends/HomeNav"
+import HomeNav from "../features/friends/FriendsNav.tsx"
 import CollectionWithFriends from "../features/friends/CollectionWithFriends.tsx"
 // import { Route, Routes } from "react-router-dom"
 // import Auth from "../auth/Auth"

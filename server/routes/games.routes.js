@@ -10,8 +10,8 @@ route.get('/all',  _allGames)
 route.post('/delmy',  _delMyGame)
 route.post('/friendscollection',  _myFriendsCollection)
 
-route.post('/stealgames', _fetchGames)
-route.put('/stealgames', _updateFetchGames)
+route.post('/savinggames', _fetchGames)
+route.put('/savinggames', _updateFetchGames)
 
 
 

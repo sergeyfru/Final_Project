@@ -15,7 +15,6 @@ export const selectorSlice = createSlice({
     name: 'slector',
     initialState,
     reducers: {
-
         getCategories: (state, action) => {
             const allGames = action.payload
             const newCategory: string[] = []
@@ -30,13 +29,7 @@ export const selectorSlice = createSlice({
             }
             state.category = newCategory.sort(({ a, b }: any) => a - b)
         },
-
-
-       
-
-
-
-
+        
         setSearch: (state, action) => {
             state.inputSearch = action.payload.toLowerCase().trim()
         },

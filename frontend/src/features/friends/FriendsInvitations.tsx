@@ -40,8 +40,8 @@ const confirmFriend =(user_id_2:string|number)=>{
                     return (
                         <Stack direction="row" sx={{ m: 2 }} style={{ justifyContent: "space-between", alignContent: "center", border: "1px solid black", padding: '0 8px', borderRadius:"4px" }} key={nanoid()}>
                             <Stack>
-                                <h2>{user.u_firstname} {user.u_lastname}</h2>
-                                <h3>{user.u_email}</h3>
+                                <h2 style={{margin:"2px"}}>{user.u_firstname} {user.u_lastname}</h2>
+                                <h3 style={{margin:"2px"}}>{user.u_email}</h3>
                             </Stack>
                             <Stack sx={{ m: 1 ,alignContent:"center", justifyContent:'space-evenly'}}>
                                <Button onClick={()=>confirmFriend(user.u_id)} variant="outlined" >Confirm</Button>

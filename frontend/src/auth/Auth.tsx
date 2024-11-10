@@ -1,46 +1,46 @@
-
-import Login from "../features/users/Login"
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { ProviderProps } from "../types/type"
-
+import Login from "../features/users/Login";
+import { useEffect, useState } from "react";
+import { ProviderProps } from "../types/type";
+import { callApi } from "../service/CallApi";
 
 const Auth = ({ children }: ProviderProps) => {
-    const refreshToken = localStorage.getItem('refresh')
-    const token = localStorage.getItem('u_token')
-    const [redirect, setRedirect] = useState(false)
+    const refreshToken = localStorage.getItem("refresh");
+    const token = localStorage.getItem("u_token");
+    const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
-        verify()
-    }, [])
+        verify();
+    }, []);
 
     const verify = async () => {
-
-        console.log('AUTH','token',token, 'refreshToken', refreshToken);
+        console.log("AUTH", "token", token, "refreshToken", refreshToken);
 
         try {
-            // axios.defaults.withCredentials= true
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/verify`, {
-                headers: {
-                    "x-access-token": token,
-                    "x-refresh-token": refreshToken
+            const response = await callApi(`/users/verify`, "post", {
+                config: {
+                    headers: {
+                        "x-access-token": token,
+                        "x-refresh-token": refreshToken,
+                    },
                 },
-                withCredentials: true,
-            })
+            });
             if (response.status === 200) {
-                setRedirect(true)
+                setRedirect(true);
             } else {
                 console.log(response);
-                
             }
-
-
         } catch (error) {
-            setRedirect(false)
+            setRedirect(false);
         }
-    }
+    };
 
-    return redirect ? children : <>Not Authorised  <Login page={'Login'} /></>
-}
+    return redirect ? (
+        children
+    ) : (
+        <>
+            Not Authorised <Login page={"Login"} />
+        </>
+    );
+};
 
-export default Auth
+export default Auth;

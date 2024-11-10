@@ -1,28 +1,28 @@
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
-dotenv.config()
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
-const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY } = process.env
-
-
-
-
+const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY } = process.env;
 
 export const verifyToken = (req, res, next) => {
-console.log(req.cookies);
-    const accessToken = req.cookies['u_token'] || req.headers['x-access-token']
-    const refreshToken = req.cookies['refreshToken'] || req.headers['x-refresh-token']
-    console.log("Im in verify",accessToken,refreshToken);
-    if (!accessToken) {
-
-
+    const accessToken = req.cookies["u_token"] || req.headers["x-access-token"];
+    const refreshToken =
+        req.cookies["refreshToken"] || req.headers["x-refresh-token"];
+    // console.log("Im in verify",accessToken,refreshToken);
+    if (!accessToken && ACCESS_TOKEN_SECRET) {
         if (!refreshToken) {
-            return res.status(403).json({ msg: 'Token verification failed => Unauthorized' })
+            return res
+                .status(403)
+                .json({ msg: "Token verification failed => Unauthorized" });
         }
 
         jwt.verify(refreshToken, ACCESS_TOKEN_SECRET, (err, decode) => {
             if (err) {
-                return res.status(403).json({ msg: 'Refresh token verification failed => Forbidden' })
+                return res
+                    .status(403)
+                    .json({
+                        msg: `Access token verification failed => ${err.message}`,
+                    });
             }
 
             const newAccessToken = jwt.sign(
@@ -34,16 +34,15 @@ console.log(req.cookies);
                 },
                 ACCESS_TOKEN_SECRET,
                 {
-                    expiresIn: ACCESS_TOKEN_EXPIRY
-
+                    expiresIn: ACCESS_TOKEN_EXPIRY,
                 }
             );
-            req.user = decode
-            res.cookie('u_token', newAccessToken, {
+            req.user = decode;
+            res.cookie("u_token", newAccessToken, {
                 httpOnly: true,
-                maxAge: ACCESS_TOKEN_EXPIRY
-            })
-        })
+                maxAge: ACCESS_TOKEN_EXPIRY,
+            });
+        });
 
         const newRefreshToken = jwt.sign(
             {
@@ -54,25 +53,27 @@ console.log(req.cookies);
             },
             ACCESS_TOKEN_SECRET,
             {
-                expiresIn: ACCESS_TOKEN_EXPIRY * 24
+                expiresIn: ACCESS_TOKEN_EXPIRY * 24,
             }
-        )
+        );
 
-        res.cookie('refreshToken', newRefreshToken, { httpOnly: true, maxAge: ACCESS_TOKEN_EXPIRY * 24 })
-        next()
+        res.cookie("refreshToken", newRefreshToken, {
+            httpOnly: true,
+            maxAge: ACCESS_TOKEN_EXPIRY * 24,
+        });
+        next();
     } else {
-
-        jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, decode) => {
+        jwt.verify(accessToken, `${ACCESS_TOKEN_SECRET}`, (err, decode) => {
             if (err) {
-                return res.status(403).json({ msg: 'Access token verification failed => Forbidden' })
+                return res
+                    .status(403)
+                    .json({
+                        msg: `Access token verification failed => ${err.message}`,
+                    });
             }
-            console.log('verify is fineshed. all is good');
-            req.user = decode
-            next()
-        })
+            console.log("verify is fineshed. all is good");
+            req.user = decode;
+            next();
+        });
     }
-
-}
-
-
-
+};

@@ -7,7 +7,6 @@ import Registration from "./features/users/Registration.tsx";
 import Login from "./features/users/Login.tsx";
 import Home from "./components/Home.tsx";
 import MyCollection from "./features/games/MyCollection.tsx";
-import Auth from "./auth/Auth.tsx";
 import MyFriends from "./features/friends/MyFriends.tsx";
 import Friends from "./features/friends/Friends.tsx";
 import { nanoid } from "@reduxjs/toolkit";
